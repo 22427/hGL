@@ -68,7 +68,7 @@ public:
 	void set_decoration(bool dec);
 	bool should_close();
 	void set_should_close(bool s_c = true);
-	bool is_key_down(int key) const;
+	bool is_key_down(int key) const {return  m_key_state[key];}
 };
 
 }

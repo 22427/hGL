@@ -15,6 +15,24 @@
 namespace mgl
 {
 
+#define IS 0
+#define SB 1
+
+
+
+
+struct TextureUnitState
+{
+	const Texture* tex2d;
+	const Texture* cube;
+	TextureUnitState()
+	{
+		tex2d = nullptr;
+		cube = nullptr;
+	}
+};
+
+
 class Framebuffer;
 class Renderbuffer;
 class ContextState
@@ -24,231 +42,100 @@ class ContextState
 	friend class VertexArray;
 
 protected:
-#define IS 0
-#define SB 1
-	GLenum m_tu_active[2];
-	GLuint m_tu_tex2d[2];
-	GLuint m_tu_cube[2];
-
-	GLuint m_vao[2];
-
-	GLuint m_buf_bindings[2][2];
 
 
+	GLuint m_active_tu;
+	TextureUnitState m_tu[8];
 
-	glm::vec4 m_clear_color[2];
-	GLfloat m_clear_depth[2];
-	GLint m_clear_setncil[2];
 
-	GLuint m_program[2];
+	const VertexArray* m_vao;
 
-	GLuint m_framebuffer[2];
-	GLuint m_renderbuffer[2];
+	const Buffer* m_buf_bindings[2];
+
+
+
+	glm::vec4 m_clear_color;
+	GLfloat m_clear_depth;
+	GLint m_clear_setncil;
+
+	const Program* m_program;
+
+	const Framebuffer* m_framebuffer;
+	const Renderbuffer* m_renderbuffer;
 
 
 	GLuint m_next_vertex_array;
 
 public:
 
-	ContextState()
+	ContextState();
+
+	GLenum activeTexture(const GLenum textureUnit);
+	const Framebuffer* bindFramebuffer(const GLenum target, const Framebuffer* f);
+	const Renderbuffer *bindRenderbuffer(const GLenum target, const Renderbuffer* f);
+	const VertexArray *bindVertexArray(VertexArray* vao);
+	const Buffer* bindBuffer(const GLenum target, const Buffer* b);
+
+	const Texture *bindTexture(const GLenum target, const Texture* b);
+	const Program *useProgram(const Program* prog);
+
+	Buffer* createBuffer();
+	Shader* createShader(GLenum shader_type);
+
+	Texture* createTexture(GLenum target);
+	Program* createProgram();
+
+	VertexArray* createVertexArray();
+
+	void deleteBuffer(const Buffer* b)
 	{
-		m_tu_active[0] = m_tu_active[1]= GL_TEXTURE0;
-		m_tu_tex2d[0] = m_tu_tex2d[1]= 0;
-		m_tu_cube[0] = m_tu_cube[1]= 0;
-
-		m_vao[0] = m_vao[1] = 0;
-		memset(m_buf_bindings,0,4*sizeof(GLuint));
-		m_clear_color[0] = m_clear_color[1] = glm::vec4(0,0,0,1);
-
-		m_clear_depth[0] = m_clear_depth[1] = 1.0f;
-		m_clear_setncil[0] = m_clear_setncil[1] = 0;
-
-		m_program[0] = m_program[1] = 0;
-		m_framebuffer[0] = m_framebuffer[1] = 0;
-		m_renderbuffer[0] = m_renderbuffer[1] = 0;
-
-		m_next_vertex_array = 0;
-
-
-
+		glDeleteBuffers(1,&(b->name));
+		delete b;
 	}
 
-	~ContextState();
-
-	void activeTexture(const GLenum textureUnit)
+	void deleteShader(const Shader* s)
 	{
-		if(m_tu_active[IS] != textureUnit)
-		{
-			glActiveTexture(textureUnit);
-		}
-		m_tu_active[IS] = textureUnit;
-		m_tu_active[SB] = m_tu_active[IS];
+		glDeleteShader(s->name);
+		delete s;
 	}
 
-	void loc_activeTexture(const GLenum textureUnit)
+	void deleteProgram(const Program* p)
 	{
-		if(m_tu_active[IS] != textureUnit)
-		{
-			glActiveTexture(textureUnit);
-		}
-		m_tu_active[IS] = textureUnit;
+
+		glDeleteProgram(p->name);
+		delete p;
 	}
 
-	void bindFramebuffer(const GLenum target, const Framebuffer& f)
+	void deleteTextrue(const Texture* t)
 	{
-
-//		m_framebuffer[SB] = m_tu_active[IS];
+		glDeleteTextures(1,&(t->name));
+		delete t;
 	}
 
-	void loc_bindFramebuffer(const GLenum target, const Framebuffer& f)
+	void deleteVertexArray(const VertexArray* vao)
 	{
-
+		delete vao;
 	}
 
-
-	void bindRenderbuffer(const GLenum target, const Renderbuffer& f)
+	void drawArrays(const GLenum mode,
+					const GLint first,
+					const GLsizei count)
 	{
 
-	}
 
-	void loc_bindRenderbuffer(const GLenum target, const Renderbuffer& f)
-	{
-
-	}
-
-	void bindVertexArray(VertexArray& vao)
-	{
-		vao.bind();
-	}
-
-	void loc_bindVertexArray(VertexArray& vao)
-	{
-		vao.loc_bind();
-	}
-
-	void bindBuffer(const GLenum target, const Buffer& b)
-	{
-		if(m_buf_bindings[target-GL_ARRAY_BUFFER][IS] != b.name)
-		{
-			glad_glBindBuffer(target,b.name);
-		}
-		m_buf_bindings[target-GL_ARRAY_BUFFER][IS] = b.name;
-		m_buf_bindings[target-GL_ARRAY_BUFFER][SB] = m_buf_bindings[target-GL_ARRAY_BUFFER][IS];
-
-	}
-
-	void loc_bindBuffer(const GLenum target, const Buffer& b)
-	{
-		if(m_buf_bindings[target-GL_ARRAY_BUFFER][IS] != b.name)
-		{
-			glad_glBindBuffer(target,b.name);
-		}
-		m_buf_bindings[target-GL_ARRAY_BUFFER][IS] = b.name;
+		glDrawArrays(mode,first,count);
 	}
 
 
-	void bindTexture(const GLenum target, const Texture& b)
-	{
-		auto s = m_tu_tex2d;
-		if(target == GL_TEXTURE_CUBE_MAP)
-			s = m_tu_cube;
+	Shader* util_create_shader(GLenum shader_type, const std::string& code);
+	Program* util_create_program(const std::string& vs_code, const std::string& fs_code);
 
-		if(s[IS] != b.name)
-		{
-			glBindTexture(target,b.name);
-		}
-		s[IS] = b.name;
-	}
-
-	void loc_bindTexture(const GLenum target, const Texture& b)
-	{
-		auto s = m_tu_tex2d;
-		if(target == GL_TEXTURE_CUBE_MAP)
-			s = m_tu_cube;
-
-		if(s[IS] != b.name)
-		{
-			glBindTexture(target,b.name);
-		}
-		s[IS] = b.name;
-		s[SB] = s[IS];
-	}
-
-
-	void useProgram(const Program& prog)
-	{
-		if(m_program[IS] != prog.name)
-		{
-			glUseProgram(prog.name);
-		}
-		m_program[IS] = prog.name;
-		m_program[SB] = m_program[IS];
-	}
-
-	void loc_useProgram(const Program& prog)
-	{
-		if(m_program[IS] != prog.name)
-		{
-			glUseProgram(prog.name);
-		}
-		m_program[IS] = prog.name;
-		m_program[SB] = m_program[IS];
-	}
-
-	Buffer createBuffer()
-	{
-		GLuint n;
-		glGenBuffers(1,&n);
-		return  Buffer(this,n);
-	}
-	Shader createShader(GLenum shader_type)
-	{
-		auto n = glCreateShader(shader_type);
-		return Shader(this,n);
-	}
-
-	Texture createTexture(GLenum target)
-	{
-		GLuint n;
-		glGenTextures(1,&n);
-		return Texture(this,n,target);
-	}
-	Program createProgram()
-	{
-		auto n = glCreateProgram();
-		return Program(this,n);
-	}
-
-	VertexArray createVertexArray()
-	{
-		m_next_vertex_array++;
-		return VertexArray(this,m_next_vertex_array);
-	}
-
-	Shader util_create_shader(GLenum shader_type, const std::string& code);
-	Program util_create_program(const std::string& vs_code, const std::string& fs_code);
-
-	Program util_load_program(const std::string& vs_path, const std::string& fs_path);
-	Shader util_load_shader(GLenum shader_type, const std::string& path);
-	Texture  util_load_texture2D(GLenum internal_format, const std::string& path);
+	Program* util_load_program(const std::string& vs_path, const std::string& fs_path);
+	Shader* util_load_shader(GLenum shader_type, const std::string& path);
+	Texture*  util_load_texture2D(GLenum internal_format, const std::string& path);
 
 	std::string util_error_string(const GLenum error) ;
-
-	bool util_error_check(const std::string& tect)
-	{
-#ifndef NDEBUG
-		GLenum error_code;
-		error_code = glGetError();
-		if (error_code != GL_NO_ERROR)
-		{
-			ERROR("[glERR] %s:%s",tect.c_str(),util_error_string(error_code).c_str());
-			return true;
-		}
-		return false;
-#else
-		retrun false
-#endif
-	}
+	bool util_error_check(const std::string& tect);
 };
 
 

@@ -32,7 +32,7 @@ void Shader::get(GLenum pname, GLint *params) const
 	glGetShaderiv(name,pname,params);
 }
 
-void Shader::util_shaderSource(const std::string &code) const
+void Shader::util_shaderfromSource(const std::string &code) const
 {
 	const char * c = code.c_str();
 	glShaderSource(name,1,&c,nullptr);
@@ -65,9 +65,9 @@ Program::~Program()
 {
 }
 
-void Program::attachShader(const mgl::Shader &shader) const
+void Program::attachShader(const mgl::Shader *shader) const
 {
-	glAttachShader(name,shader.name);
+	glAttachShader(name,shader->name);
 }
 
 void Program::bindAttribLocation(GLuint index, const GLchar *attrib_name) const

@@ -11,7 +11,7 @@ protected:
 	class VAP
 	{
 	public:
-		VAP(Buffer b = Buffer(nullptr,0),
+		VAP(Buffer* b =nullptr,
 			GLuint attrib_index = 0,
 			GLint size = 0, GLenum type=GL_FLOAT,
 			GLboolean normalized=GL_FALSE,
@@ -24,7 +24,7 @@ protected:
 			this->stride = stride;
 			this->pointer = pointer;
 		}
-		Buffer b;
+		Buffer* b;
 		GLuint index;
 		GLint size;
 		GLenum type;
@@ -37,7 +37,7 @@ protected:
 	bool m_enabled_vaa[8];
 	bool m_dirty;
 
-	Buffer m_element_buffer;
+	Buffer* m_element_buffer;
 
 
 	void loc_bind();
@@ -45,7 +45,7 @@ protected:
 
 public:
 	VertexArray(ContextState* origin_context=nullptr, GLuint name=0)
-		:Object(origin_context,name),m_element_buffer(nullptr,0)
+		:Object(origin_context,name),m_element_buffer(nullptr)
 	{
 		for(uint8_t i = 0 ; i<8;i++)
 		{
@@ -57,13 +57,13 @@ public:
 
 	friend class ContextState;
 
-	void elementBuffer(const Buffer& b)
+	void elementBuffer(Buffer* b)
 	{
 		m_element_buffer = b;
 		m_dirty = true;
 	}
 
-	void vertexAttribPointer(const Buffer& b, GLuint attrib_index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer)
+	void vertexAttribPointer(Buffer* b, GLuint attrib_index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer)
 	{
 		m_vaps[attrib_index].b = b;
 		m_vaps[attrib_index].index = attrib_index;

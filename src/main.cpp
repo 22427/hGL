@@ -6,8 +6,8 @@ class OpenGLApplication
 	mgl::Window_GLFW win;
 	mgl::ContextState cs;
 
-	mgl::VertexArray vao;
-	mgl::Buffer vbo;
+	mgl::VertexArray* vao;
+	mgl::Buffer* vbo;
 
 public:
 	void handle_keys(int key, int /*code*/, int /*modifier*/)
@@ -29,32 +29,38 @@ public:
 		// create vao
 		vao = cs.createVertexArray();
 		// create vbo
-		auto vbo = cs.createBuffer();
+		vbo = cs.createBuffer();
 		// write data to vbo
-		vbo.bufferData(9*sizeof(float),vd,GL_STATIC_DRAW);
+		vbo->bufferData(9*sizeof(float),vd,GL_STATIC_DRAW);
 
 		// choose binding and attribute id ...
 		const GLuint attrib_id = 0;
 
 		// set the attributes format: how does one of this attributes look like
 		// insida a set of attributes.
-		vao.vertexAttribPointer(vbo,attrib_id,3,GL_FLOAT,GL_FALSE,0,0);
-		vao.enableVertexAttribArray(attrib_id);
+		vao->enableVertexAttribArray(attrib_id);
+		vao->vertexAttribPointer(vbo,attrib_id,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
+
 
 
 		// create a shader using a util_ function ... making it easy to
 		// create a shader from two strings.
 
-		auto p = cs.util_create_program( "#version 100\n "
-										   "layout(location=0) in vec3 pos; \n"
+		auto p = cs.createProgram();
+		auto vs = cs.util_create_shader(GL_VERTEX_SHADER,
+											"#version 100\n "
+										   "attribute vec3 pos; \n"
 										   "void main(){\n"
-										   "gl_Position = vec4(pos,1.0);\n}",
-
+										   "gl_Position = vec4(pos,1.0);\n}");
+		auto fs = cs.util_create_shader(GL_FRAGMENT_SHADER,
 										   "#version 100\n "
-										   "layout(location=0) out vec4 clr; \n"
+										   //"out vec4 clr; \n"
 										   "void main(){\n"
-										   "clr = vec4(1,0,0,1);\n}");
-
+										   "gl_FragColor = vec4(1,0,0,1);\n}");
+		p->attachShader(vs);
+		p->attachShader(fs);
+		p->bindAttribLocation(0,"pos");
+		p->link();
 		// we wont use any other program so we can bind it and keep it that way!
 		cs.useProgram(p);
 

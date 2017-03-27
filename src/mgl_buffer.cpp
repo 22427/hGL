@@ -7,26 +7,30 @@ namespace mgl
 
 void Buffer::bufferData(GLsizei size, const void *data, GLenum usage)
 {
-	m_context->loc_bindBuffer(GL_ARRAY_BUFFER,*this);
+	auto r = m_context->bindBuffer(GL_ARRAY_BUFFER,this);
 	glBufferData(GL_ARRAY_BUFFER,size,data,usage);
+	m_context->bindBuffer(GL_ARRAY_BUFFER,r);
 }
 
 void Buffer::bufferSubData(GLsizei size, GLintptr offset, const void *data)
 {
-	m_context->loc_bindBuffer(GL_ARRAY_BUFFER,*this);
+	auto r = m_context->bindBuffer(GL_ARRAY_BUFFER,this);
 	glBufferSubData(GL_ARRAY_BUFFER,size,offset,data);
+	m_context->bindBuffer(GL_ARRAY_BUFFER,r);
 }
 
 void *Buffer::mapBuffer(GLenum access)
 {
-	m_context->loc_bindBuffer(GL_ARRAY_BUFFER,*this);
+	m_context->bindBuffer(GL_ARRAY_BUFFER,this);
 	return glMapBufferOES(GL_ARRAY_BUFFER, access);
 }
 
 GLboolean Buffer::unmapBuffer()
 {
-	m_context->loc_bindBuffer(GL_ARRAY_BUFFER,*this);
-	return glUnmapBufferOES(GL_ARRAY_BUFFER);
+	auto r = m_context->bindBuffer(GL_ARRAY_BUFFER,this);
+	auto res =  glUnmapBufferOES(GL_ARRAY_BUFFER);
+	m_context->bindBuffer(GL_ARRAY_BUFFER,r);
+	return  res;
 }
 
 }

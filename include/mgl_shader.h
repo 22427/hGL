@@ -26,7 +26,7 @@ public:
 	void get(GLenum pname, GLint* params)const;
 
 
-	void util_shaderSource(const std::string& code)const;
+	void util_shaderfromSource(const std::string& code)const;
 
 	std::string util_read_log()const;
 
@@ -41,7 +41,7 @@ public:
 	Program(ContextState* origin_context,GLuint name);
 	~Program();
 
-	void attachShader(const Shader& shader) const;
+	void attachShader(const Shader* shader) const;
 
 	void bindAttribLocation(GLuint index, const GLchar* attrib_name)const;
 
