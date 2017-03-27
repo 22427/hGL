@@ -19,7 +19,7 @@ SOURCES += \
 
 CONFIG += c++11
 
-DESTDIR = bin
+DESTDIR = lib
 OBJECTS_DIR = obj
 
 LIBS += -L./dep/lib -lglfw -lstb -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor
