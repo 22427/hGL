@@ -1,7 +1,7 @@
 #include <mgl_context_state.h>
 #include <fstream>
 #include <cstring>
-#include <stb_image.h>
+#include <stb/stb_image.h>
 #include <mgl_log.h>
 namespace mgl {
 
