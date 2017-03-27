@@ -7,7 +7,7 @@ namespace mgl
 {
 
 
-class Texture : public Object
+class MGL_DLL_PUBLIC Texture : public Object
 {
 protected:
 

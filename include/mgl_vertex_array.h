@@ -5,7 +5,7 @@
 namespace mgl
 {
 
-class VertexArray : public Object
+class MGL_DLL_PUBLIC VertexArray : public Object
 {
 protected:
 	class VAP

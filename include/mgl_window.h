@@ -3,12 +3,12 @@
 #include <glad/glad.h>
 namespace mgl {
 
-class Window
+class  Window
 {
 
 public:
 
-	virtual ~Window(){};
+	virtual ~Window(){}
 	virtual void make_current() =0;
 	virtual void unmake_current() =0;
 	virtual void swap_buffers() =0;

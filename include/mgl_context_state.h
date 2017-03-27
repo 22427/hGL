@@ -21,7 +21,7 @@ namespace mgl
 
 
 
-struct TextureUnitState
+struct MGL_DLL_PUBLIC TextureUnitState
 {
 	const Texture* tex2d;
 	const Texture* cube;
@@ -35,7 +35,7 @@ struct TextureUnitState
 
 class Framebuffer;
 class Renderbuffer;
-class ContextState
+class MGL_DLL_PUBLIC ContextState
 {
 	friend class Texture;
 	friend class Buffer;

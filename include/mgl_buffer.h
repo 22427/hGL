@@ -4,7 +4,7 @@
 namespace mgl
 {
 
-class Buffer : public Object
+class MGL_DLL_PUBLIC Buffer : public Object
 {
 protected:
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "mgl_window.h"
+#include "mgl_dll.h"
 #include <glad/glad.h>
 #define GLFW_INCLUDE_ES2
 #include <GLFW/glfw3.h>
@@ -7,7 +8,7 @@
 namespace mgl
 {
 
-class Window_GLFW : public Window
+class MGL_DLL_PUBLIC Window_GLFW : public Window
 {
 
 	GLFWwindow* m_glfw_win;

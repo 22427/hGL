@@ -1,12 +1,11 @@
-TEMPLATE = app
+TEMPLATE = lib
 
 TARGET = miniGL
-CONFIG   += console
+CONFIG   += dll
 CONFIG   -= app_bundle
 
 
-INCLUDEPATH += dep/include\
-               dep/glad/include\
+INCLUDEPATH += include/dep\
                include
 SOURCES += \ 
     src/main.cpp \
@@ -34,4 +33,5 @@ HEADERS += \
     include/mgl_shader.h \
     include/mgl_object.h \
     include/mgl_log.h \
-    include/mgl_context_state.h
+    include/mgl_context_state.h \
+    include/mgl_dll.h

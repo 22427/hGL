@@ -5,7 +5,7 @@
 namespace mgl
 {
 
-class Shader : public Object
+class MGL_DLL_PUBLIC Shader : public Object
 {
 protected:
 
@@ -34,7 +34,7 @@ public:
 };
 
 
-class Program : public Object
+class MGL_DLL_PUBLIC Program : public Object
 {
 public:
 	friend class ContextState;

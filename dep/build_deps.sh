@@ -2,7 +2,6 @@
 git submodule init
 git submodule update
 
-mkdir -p include
 mkdir -p lib
 
 #build glad
@@ -21,16 +20,15 @@ cmake .
 make -j4
 cd ..
 
-#generate links
+# copying includes
+mkdir -p ../include/dep
 
-cd include
+cp -r stb_build/stb 	../include/dep/
+cp -r glad/include/glad ../include/dep/
+cp -r glfw/include/GLFW ../include/dep/
+cp -r glm/	 	../include/dep/
+cp -r glad/include/KHR/ ../include/dep/
 
-ln -s ../glad/include/glad glad
-ln -s ../glfw/include/GLFW GLFW
-ln -s ../glm/ glm
-ln -s ../glad/include/KHR/
-
-cd ..
 cd lib
-ln -s ../glfw/src/libglfw3.a libglfw.a
+cp ../glfw/src/libglfw3.a libglfw.a
 

@@ -1,3 +1,4 @@
+#if 0
 #include "mgl_context_state.h"
 #include "mgl_glfw_window.h"
 
@@ -106,3 +107,4 @@ int main()
 
 	return 0;
 }
+#endif

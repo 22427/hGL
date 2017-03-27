@@ -1,10 +1,11 @@
 #pragma once
 #include <glad/glad.h>
+#include "mgl_dll.h"
 
 namespace mgl
 {
 class ContextState;
-class Object
+class MGL_DLL_PUBLIC Object
 {
 protected:
 
