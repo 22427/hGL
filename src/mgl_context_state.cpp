@@ -1,8 +1,9 @@
 #include <mgl_context_state.h>
 #include <fstream>
 #include <cstring>
-#include <stb/stb_image.h>
 #include <mgl_log.h>
+#include <stb/stb_image.h>
+
 namespace mgl {
 
 

@@ -40,8 +40,6 @@ public:
 						   GLenum sub_target=0) const;
 
 	void generateTextureMipmap() const;
-
-	void uitl_load(const std::string& path,GLenum internal_format);
 };
 
 
