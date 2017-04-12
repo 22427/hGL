@@ -1,4 +1,4 @@
-hGL - Handy OpenGL
+hGLES - Handy OpenGL|ES
 ===============================
 This is a small wrapper representing an OpenGL|ES 2.0 + Pi Context and its Objects.
 
