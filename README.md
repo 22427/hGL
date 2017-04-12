@@ -1,6 +1,6 @@
 hGLES - Handy OpenGL|ES
 ===============================
-This is a small wrapper representing an OpenGL|ES 2.0 + Pi Context and its Objects.
+This is a small wrapper representing an OpenGL|ES 2.0 + Pi Context and its Objects. The Idear is to provide an abstraction which allows you to create interactive 3D applications for the RasberryPI and your heavy duty desktop-Machine.
 
 Context Version and Extensions
 -------------------------------
