@@ -28,7 +28,7 @@ Vertex Array Objects are supported eighter by the GL_OES_vertex_array_object ext
 
 Dependencies
 ----------------------------
-hGL uses
+hGLES uses
 - **GLFW3** as a default for context creation. 
 - **GLM** is used to represent matrices and vectors. 
 - **GLAD** is used for the extension loading.
