@@ -1,9 +1,9 @@
 #pragma once
 #include <cmath>
 #include <algorithm>
-#include "mgl_buffer.h"
+#include "hgles_buffer.h"
 
-namespace mgl
+namespace hgles
 {
 
 

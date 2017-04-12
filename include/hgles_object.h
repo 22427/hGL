@@ -1,8 +1,8 @@
 #pragma once
 #include <glad/glad.h>
-#include "mgl_dll.h"
+#include "hgles_dll.h"
 
-namespace mgl
+namespace hgles
 {
 class ContextState;
 class MGL_DLL_PUBLIC Object

@@ -1,14 +1,19 @@
 #pragma once
+
+
 #include <functional>
 #include <glad/glad.h>
-namespace mgl {
 
-class  Window
+
+
+namespace hgles {
+
+class  WindowInterface
 {
 
 public:
 
-	virtual ~Window(){}
+	virtual ~WindowInterface(){}
 	virtual void make_current() =0;
 	virtual void unmake_current() =0;
 	virtual void swap_buffers() =0;
@@ -18,6 +23,7 @@ public:
 	virtual void set_title(const std::string& title) =0;
 	virtual void set_size_callback(std::function<void (int w,int h)> fun) =0;
 	virtual void set_position_callback(std::function<void (int x ,int y)> fun) =0;
+
 	virtual void set_button_callback(std::function<void (int button,
 													 int action,
 													 int mods)> fun) =0;
@@ -40,6 +46,8 @@ public:
 
 };
 
+
+#include "hgles_window_glfw.h"
 
 
 }

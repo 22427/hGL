@@ -5,14 +5,14 @@
 #include <cstring>
 
 #include <glm/vec4.hpp>
-#include "mgl_window.h"
-#include "mgl_object.h"
-#include "mgl_buffer.h"
-#include "mgl_shader.h"
-#include "mgl_texture.h"
-#include "mgl_vertex_array.h"
-#include "mgl_log.h"
-namespace mgl
+#include "hgles_window.h"
+#include "hgles_object.h"
+#include "hgles_buffer.h"
+#include "hgles_shader.h"
+#include "hgles_texture.h"
+#include "hgles_vertex_array.h"
+#include "hgles_log.h"
+namespace hgles
 {
 
 #define IS 0
@@ -50,9 +50,8 @@ protected:
 
 	const VertexArray* m_vao;
 
-	const Buffer* m_buf_bindings[2];
-
-
+	const Buffer* m_array_buf;
+	const Buffer* m_index_buf;
 
 	glm::vec4 m_clear_color;
 	GLfloat m_clear_depth;
@@ -70,14 +69,14 @@ public:
 
 	ContextState();
 
-	GLenum activeTexture(const GLenum textureUnit);
-	const Framebuffer* bindFramebuffer(const GLenum target, const Framebuffer* f);
-	const Renderbuffer *bindRenderbuffer(const GLenum target, const Renderbuffer* f);
-	const VertexArray *bindVertexArray(VertexArray* vao);
-	const Buffer* bindBuffer(const GLenum target, const Buffer* b);
+	void activeTexture(const GLenum textureUnit);
+	void bindFramebuffer(const GLenum target, const Framebuffer* f);
+	void bindRenderbuffer(const GLenum target, const Renderbuffer* f);
+	void bindVertexArray(VertexArray* vao);
+	void bindBuffer(const GLenum target, const Buffer* b);
 
-	const Texture *bindTexture(const GLenum target, const Texture* b);
-	const Program *useProgram(const Program* prog);
+	void bindTexture(const GLenum target, const Texture* b);
+	void useProgram(const Program* prog);
 
 	Buffer* createBuffer();
 	Shader* createShader(GLenum shader_type);
@@ -132,7 +131,6 @@ public:
 
 	Program* util_load_program(const std::string& vs_path, const std::string& fs_path);
 	Shader* util_load_shader(GLenum shader_type, const std::string& path);
-	Texture*  util_load_texture2D(GLenum internal_format, const std::string& path);
 
 	std::string util_error_string(const GLenum error) ;
 	bool util_error_check(const std::string& tect);

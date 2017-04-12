@@ -1,14 +1,15 @@
 #pragma once
-#include "mgl_window.h"
-#include "mgl_dll.h"
+#ifdef HGLES_USE_GLFW
+#include "hgles_window.h"
+#include "hgles_dll.h"
 #include <glad/glad.h>
 #define GLFW_INCLUDE_ES2
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
-namespace mgl
+namespace hgles
 {
 
-class MGL_DLL_PUBLIC Window_GLFW : public Window
+class MGL_DLL_PUBLIC Window : public WindowInterface
 {
 
 	GLFWwindow* m_glfw_win;
@@ -48,8 +49,8 @@ class MGL_DLL_PUBLIC Window_GLFW : public Window
 	uint8_t m_key_state[512];
 
 public:
-	Window_GLFW(const uint32_t w, const uint32_t h);
-	~Window_GLFW();
+	Window(const uint32_t w, const uint32_t h);
+	~Window();
 	void make_current();
 	void unmake_current();
 	void swap_buffers();
@@ -73,3 +74,4 @@ public:
 };
 
 }
+#endif

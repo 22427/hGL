@@ -1,7 +1,7 @@
-#include <mgl_context_state.h>
-#include <mgl_buffer.h>
+#include <hgles_context_state.h>
+#include <hgles_buffer.h>
 
-namespace mgl
+namespace hgles
 {
 
 
@@ -32,7 +32,7 @@ void Shader::get(GLenum pname, GLint *params) const
 	glGetShaderiv(name,pname,params);
 }
 
-void Shader::util_shaderfromSource(const std::string &code) const
+void Shader::shaderSource(const std::string &code) const
 {
 	const char * c = code.c_str();
 	glShaderSource(name,1,&c,nullptr);
@@ -65,7 +65,7 @@ Program::~Program()
 {
 }
 
-void Program::attachShader(const mgl::Shader *shader) const
+void Program::attachShader(const hgles::Shader *shader) const
 {
 	glAttachShader(name,shader->name);
 }

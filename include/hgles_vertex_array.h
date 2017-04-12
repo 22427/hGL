@@ -1,8 +1,8 @@
 #pragma once
 #include <glad/glad.h>
-#include "mgl_buffer.h"
+#include "hgles_buffer.h"
 #include <map>
-namespace mgl
+namespace hgles
 {
 
 class MGL_DLL_PUBLIC VertexArray : public Object
@@ -40,8 +40,7 @@ protected:
 	Buffer* m_element_buffer;
 
 
-	void loc_bind();
-	void bind();
+
 
 public:
 	VertexArray(ContextState* origin_context=nullptr, GLuint name=0)

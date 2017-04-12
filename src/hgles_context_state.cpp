@@ -1,10 +1,9 @@
-#include <mgl_context_state.h>
+#include <hgles_context_state.h>
 #include <fstream>
 #include <cstring>
-#include <mgl_log.h>
-#include <stb/stb_image.h>
+#include <hgles_log.h>
 
-namespace mgl {
+namespace hgles {
 
 
 ContextState::ContextState()
@@ -22,92 +21,122 @@ ContextState::ContextState()
 	m_renderbuffer=nullptr;
 	m_active_tu = 0;
 
-	m_buf_bindings[0] = m_buf_bindings[1] = nullptr;
+	m_array_buf = m_index_buf = nullptr;
 	m_next_vertex_array = 0;
 
 
-
 }
 
-GLenum ContextState::activeTexture(const GLenum textureUnit)
+void ContextState::activeTexture(const GLenum textureUnit)
 {
-	auto to_ret = GL_TEXTURE0+m_active_tu;
-	m_active_tu = textureUnit-GL_TEXTURE0;
-	if(m_active_tu != to_ret)
+	auto new_tu = textureUnit-GL_TEXTURE0;
+	if(m_active_tu != new_tu)
 		glActiveTexture(textureUnit);
-	return to_ret;
+	m_active_tu = new_tu;
+}
+
+
+void ContextState::bindFramebuffer(const GLenum /*target*/, const Framebuffer */*f*/)
+{
 
 }
 
 
-const Framebuffer* ContextState::bindFramebuffer(const GLenum /*target*/, const Framebuffer */*f*/)
+void ContextState::bindRenderbuffer(const GLenum /*target*/, const Renderbuffer */*f*/)
 {
-
-	return  nullptr;
-}
-
-
-const Renderbuffer* ContextState::bindRenderbuffer(const GLenum /*target*/, const Renderbuffer */*f*/)
-{
-	return nullptr;
-}
-
-
-const VertexArray* ContextState::bindVertexArray(VertexArray *vao)
-{
-	auto to_ret = m_vao;
-	m_vao= vao;
-	if(m_vao&&m_vao != to_ret)
-		vao->bind();
-	return to_ret;
 
 }
 
 
-const Buffer *ContextState::bindBuffer(const GLenum target, const Buffer *b)
+void ContextState::bindVertexArray(VertexArray *vao)
 {
-	auto to_ret = m_buf_bindings[target-GL_ARRAY_BUFFER] ;
-	m_buf_bindings[target-GL_ARRAY_BUFFER] = b;
+	if(!vao)
+	{
+		if(glBindVertexArrayOES)
+			glBindVertexArrayOES(0);
+		else
+		{
+			for(uint8_t i = 0 ; i < 8 ; i++)
+			{
+				glDisableVertexAttribArray(i);
+			}
+			bindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+			bindBuffer(GL_ARRAY_BUFFER,0);
+		}
+	}
+	else
+	{
+		if(glBindVertexArrayOES)
+			glBindVertexArrayOES(vao->name);
+		else
+		{
+			for(uint8_t i = 0 ; i < 8 ; i++)
+			{
+				const auto& v = vao->m_vaps[i];
+				if(!v.b)
+					continue;
+				if(vao->m_enabled_vaa[i] )
+				{
+					if(!m_vao->m_enabled_vaa[i]) // attribute was not enabled
+						glEnableVertexAttribArray(v.index);
 
-	if(b && to_ret != b)
+					bindBuffer(GL_ARRAY_BUFFER,v.b);
+					glVertexAttribPointer(v.index,
+										  v.size,
+										  v.type,
+										  v.normalized,
+										  v.stride,
+										  v.pointer);
+				}
+				else if(m_vao->m_enabled_vaa[i]) // attribute was enabled
+					glDisableVertexAttribArray(i);
+			}
+			if(vao->m_element_buffer)
+				bindBuffer(GL_ELEMENT_ARRAY_BUFFER,vao->m_element_buffer);
+			else
+				bindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+		}
+	}
+	m_vao = vao;
+}
+
+
+void ContextState::bindBuffer(const GLenum target, const Buffer *b)
+{
+
+	auto& m_b = (target == GL_ARRAY_BUFFER)?(m_array_buf):(m_index_buf) ;
+	if(b && m_b->name != b->name)
 		glBindBuffer(target,b->name);
-	return to_ret;
+	else if(!b)
+		glBindBuffer(target,0);
+	m_b = b;
 }
 
 
 
-const Texture* ContextState::bindTexture(const GLenum target, const Texture *b)
+void ContextState::bindTexture(const GLenum target, const Texture *b)
 {
 
-	const Texture* to_ret = nullptr;
-	// bind texture
-	if(target == GL_TEXTURE_2D)
-	{
-		to_ret = m_tu[m_active_tu].tex2d;
-		m_tu[m_active_tu].tex2d = b;
+	auto& curr = m_tu[m_active_tu].tex2d;
+	if(target == GL_TEXTURE_CUBE_MAP)
+		curr = m_tu[m_active_tu].cube;
 
-	}
-	else if(target == GL_TEXTURE_CUBE_MAP)
-	{
-		to_ret = m_tu[m_active_tu].tex2d;
-		m_tu[m_active_tu].cube = b;
-
-	}
-
-	if(b && to_ret != b)
+	if(b && curr != b)
 		glBindTexture(target,b->name);
-	return to_ret;
+	else if(!b)
+		glBindTexture(target,0);
+	curr = b;
 
 }
 
-const Program* ContextState::useProgram(const Program *prog)
+void ContextState::useProgram(const Program *prog)
 {
-	const Program* to_ret = m_program;
-	m_program = prog;
 
-	if(prog && to_ret != prog)
+	if(prog && m_program != prog)
 		glUseProgram(prog->name);
-	return  to_ret;
+	else if(!prog)
+		glUseProgram(0);
+	m_program = prog;
 }
 
 Buffer* ContextState::createBuffer()
@@ -138,14 +167,23 @@ Program* ContextState::createProgram()
 
 VertexArray* ContextState::createVertexArray()
 {
-	m_next_vertex_array++;
+	GLuint vao = 0;
+	if(!glBindVertexArrayOES)
+	{
+		m_next_vertex_array++;
+		vao = m_next_vertex_array;
+	}
+	else
+	{
+		glGenVertexArraysOES(1,&vao);
+	}
 	return new  VertexArray(this,m_next_vertex_array);
 }
 
 Shader* ContextState::util_create_shader(GLenum shader_type, const std::string &code)
 {
 	auto res = createShader(shader_type);
-	res->util_shaderfromSource(code);
+	res->shaderSource(code);
 	if(!res->util_compile())
 	{
 		WARNING("Compiling shader failed: %s",res->util_read_log().c_str());
@@ -168,31 +206,6 @@ Shader* ContextState::util_load_shader(GLenum shader_type,
 	return util_create_shader(shader_type,code);
 }
 
-Texture* ContextState::util_load_texture2D(GLenum internal_format,
-										   const std::string &path)
-{
-	int dchan = 0;
-
-	switch (internal_format)
-	{
-	case GL_RGBA : dchan = 4; break;
-	case GL_RGB : dchan = 3;  break;
-	default: dchan = 4; break;
-	}
-
-	int w,h,c;
-	auto data = stbi_load(path.c_str(),&w,&h,&c,dchan);
-	if(! data)
-	{
-		WARNING("Failed to load image %s",path.c_str());
-	}
-
-	auto res = createTexture(GL_TEXTURE_2D);
-	res->textureImage2D(0,0,0,w,h,internal_format,GL_UNSIGNED_BYTE,data);
-	free(data);
-
-	return res;
-}
 
 std::string ContextState::util_error_string(const GLenum error)
 {

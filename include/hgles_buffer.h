@@ -1,7 +1,7 @@
 #pragma once
 
-#include "mgl_object.h"
-namespace mgl
+#include "hgles_object.h"
+namespace hgles
 {
 
 class MGL_DLL_PUBLIC Buffer : public Object

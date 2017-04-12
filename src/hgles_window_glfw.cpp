@@ -1,16 +1,17 @@
-#include <mgl_glfw_window.h>
+#ifdef HGLES_USE_GLFW
+#include <hgles_window_glfw.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cstring>
-#include <mgl_log.h>
-namespace mgl
+#include <hgles_log.h>
+namespace hgles
 {
 
 
 
-unsigned int Window_GLFW::m_glfw_initiated = 0;
+unsigned int Window::m_glfw_initiated = 0;
 
-Window_GLFW::Window_GLFW(const uint32_t w, const uint32_t h)
+Window::Window(const uint32_t w, const uint32_t h)
 	:m_glfw_win(nullptr)
 {
 	memset(m_key_state,0,512);
@@ -50,7 +51,7 @@ Window_GLFW::Window_GLFW(const uint32_t w, const uint32_t h)
 	glfwSetErrorCallback(&m_glfw_error_callback);
 }
 
-Window_GLFW::~Window_GLFW()
+Window::~Window()
 {
 	m_glfw_initiated--;
 	if(m_glfw_win)
@@ -59,42 +60,42 @@ Window_GLFW::~Window_GLFW()
 		glfwTerminate();
 }
 
-void Window_GLFW::make_current()
+void Window::make_current()
 {
 	glfwMakeContextCurrent(m_glfw_win);
 }
 
-void Window_GLFW::unmake_current()
+void Window::unmake_current()
 {
 	glfwMakeContextCurrent(nullptr);
 }
 
-void Window_GLFW::swap_buffers()
+void Window::swap_buffers()
 {
 	glfwSwapBuffers(m_glfw_win);
 }
 
-bool Window_GLFW::should_close()
+bool Window::should_close()
 {
 	return glfwWindowShouldClose(m_glfw_win);
 }
 
-void Window_GLFW::set_should_close(bool s_c)
+void Window::set_should_close(bool s_c)
 {
 	glfwSetWindowShouldClose(m_glfw_win,s_c);
 }
 
-void Window_GLFW::poll_events()
+void Window::poll_events()
 {
 	glfwPollEvents();
 }
 
-void Window_GLFW::set_title(const std::string &title)
+void Window::set_title(const std::string &title)
 {
 	glfwSetWindowTitle(m_glfw_win,title.c_str());
 }
 
-void Window_GLFW::set_size_callback(std::function<void (int, int)> fun)
+void Window::set_size_callback(std::function<void (int, int)> fun)
 {
 	if(!m_size_fun)
 	{
@@ -114,8 +115,9 @@ void Window_GLFW::set_size_callback(std::function<void (int, int)> fun)
 	}
 }
 
-void Window_GLFW::set_position_callback(std::function<void (int, int)> fun)
+void Window::set_position_callback(std::function<void (int, int)> fun)
 {
+	GLFW_KEY_ESCAPE
 
 	if(!m_pos_fun)
 	{
@@ -134,7 +136,7 @@ void Window_GLFW::set_position_callback(std::function<void (int, int)> fun)
 	}
 }
 
-void Window_GLFW::set_button_callback(std::function<void (int, int, int)> fun)
+void Window::set_button_callback(std::function<void (int, int, int)> fun)
 {
 	if(!m_mouse_button_fun)
 	{
@@ -147,7 +149,7 @@ void Window_GLFW::set_button_callback(std::function<void (int, int, int)> fun)
 	}
 }
 
-void Window_GLFW::set_cursor_callback(std::function<void (double, double)> fun)
+void Window::set_cursor_callback(std::function<void (double, double)> fun)
 {
 	if(!m_cursor_pos_fun)
 	{
@@ -160,7 +162,7 @@ void Window_GLFW::set_cursor_callback(std::function<void (double, double)> fun)
 	}
 }
 
-void Window_GLFW::set_scroll_callback(std::function<void (double, double)> fun)
+void Window::set_scroll_callback(std::function<void (double, double)> fun)
 {
 	if(!m_scroll_fun)
 	{
@@ -174,7 +176,7 @@ void Window_GLFW::set_scroll_callback(std::function<void (double, double)> fun)
 	}
 }
 
-void Window_GLFW::set_key_down_callback(std::function<void (int, int, int)> fun)
+void Window::set_key_down_callback(std::function<void (int, int, int)> fun)
 {
 	if(!m_key_down_fun)
 	{
@@ -188,7 +190,7 @@ void Window_GLFW::set_key_down_callback(std::function<void (int, int, int)> fun)
 	}
 }
 
-void Window_GLFW::set_key_up_callback(std::function<void (int, int, int)> fun)
+void Window::set_key_up_callback(std::function<void (int, int, int)> fun)
 {
 	if(!m_key_up_fun)
 	{
@@ -203,7 +205,7 @@ void Window_GLFW::set_key_up_callback(std::function<void (int, int, int)> fun)
 }
 
 
-void Window_GLFW::set_char_callback(std::function<void (unsigned int, int)> fun)
+void Window::set_char_callback(std::function<void (unsigned int, int)> fun)
 {
 	if(!m_char_fun)
 	{
@@ -217,7 +219,7 @@ void Window_GLFW::set_char_callback(std::function<void (unsigned int, int)> fun)
 	}
 }
 
-void Window_GLFW::set_fullscreen(bool fs)
+void Window::set_fullscreen(bool fs)
 {
 	auto mon = glfwGetWindowMonitor(m_glfw_win);
 	if(! mon && fs) // there is no monitor and we want there to be one
@@ -237,7 +239,7 @@ void Window_GLFW::set_fullscreen(bool fs)
 	}
 }
 
-void Window_GLFW::toggle_fullscreen()
+void Window::toggle_fullscreen()
 {
 	auto mon = glfwGetWindowMonitor(m_glfw_win);
 	if(! mon) // there is no monitor and we want there to be one
@@ -258,57 +260,57 @@ void Window_GLFW::toggle_fullscreen()
 	}
 }
 
-void Window_GLFW::toggle_decoration()
+void Window::toggle_decoration()
 {
 	auto is = glfwGetWindowAttrib(m_glfw_win,GLFW_DECORATED);
 	glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,is?GLFW_FALSE:GLFW_TRUE);
 
 }
 
-void Window_GLFW::set_decoration(bool dec)
+void Window::set_decoration(bool dec)
 {
 	glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,dec?GLFW_TRUE:GLFW_FALSE);
 }
 
 
-void Window_GLFW::m_glfw_window_size_fun(GLFWwindow *win, int w, int h)
+void Window::m_glfw_window_size_fun(GLFWwindow *win, int w, int h)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_size_fun)
 		c->m_size_fun(w,h);
 }
 
-void Window_GLFW::m_glfw_window_pos_fun(GLFWwindow *win, int x, int y)
+void Window::m_glfw_window_pos_fun(GLFWwindow *win, int x, int y)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_pos_fun)
 		c->m_pos_fun(x,y);
 }
 
-void Window_GLFW::m_glfw_mouse_button_fun(GLFWwindow *win, int button, int action, int mods)
+void Window::m_glfw_mouse_button_fun(GLFWwindow *win, int button, int action, int mods)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_mouse_button_fun)
 		c->m_mouse_button_fun(button,action,mods);
 }
 
-void Window_GLFW::m_glfw_cursor_pos_fun(GLFWwindow *win, double x, double y)
+void Window::m_glfw_cursor_pos_fun(GLFWwindow *win, double x, double y)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_cursor_pos_fun)
 		c->m_cursor_pos_fun(x,y);
 }
 
-void Window_GLFW::m_glfw_scroll_fun(GLFWwindow *win, double x, double y)
+void Window::m_glfw_scroll_fun(GLFWwindow *win, double x, double y)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_scroll_fun)
 		c->m_scroll_fun(x,y);
 }
 
-void Window_GLFW::m_glfw_key_fun(GLFWwindow *win, int key, int scancode, int action, int mods)
+void Window::m_glfw_key_fun(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_key_down_fun && action == GLFW_PRESS)
 	{
 		c->m_key_state[key] = 1;
@@ -321,16 +323,17 @@ void Window_GLFW::m_glfw_key_fun(GLFWwindow *win, int key, int scancode, int act
 	}
 }
 
-void Window_GLFW::m_glfw_char_mods_fun(GLFWwindow *win, unsigned int ch, int mod)
+void Window::m_glfw_char_mods_fun(GLFWwindow *win, unsigned int ch, int mod)
 {
-	Window_GLFW* c = static_cast<Window_GLFW*>(glfwGetWindowUserPointer(win));
+	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if(c->m_char_fun)
 		c->m_char_fun(ch,mod);
 }
 
-void Window_GLFW::m_glfw_error_callback(int err_no, const char *txt)
+void Window::m_glfw_error_callback(int err_no, const char *txt)
 {
 	ERROR("%d : %s",err_no,txt);
 }
 
 }
+#endif

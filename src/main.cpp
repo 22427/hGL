@@ -1,14 +1,14 @@
 #if 0
-#include "mgl_context_state.h"
-#include "mgl_glfw_window.h"
+#include "hgles_context_state.h"
+#include "hgles_glfw_window.h"
 
 class OpenGLApplication
 {
-	mgl::Window_GLFW win;
-	mgl::ContextState cs;
+	hgles::Window_GLFW win;
+	hgles::ContextState cs;
 
-	mgl::VertexArray* vao;
-	mgl::Buffer* vbo;
+	hgles::VertexArray* vao;
+	hgles::Buffer* vbo;
 
 public:
 	void handle_keys(int key, int /*code*/, int /*modifier*/)
