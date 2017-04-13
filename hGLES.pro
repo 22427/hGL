@@ -17,7 +17,8 @@ SOURCES += \
     src/hgles_vertex_array.cpp \
     src/hgles_shader.cpp \
     src/hgles_window_glfw.cpp \
-    src/hgles_input_glfw.cpp
+    src/hgles_input_glfw.cpp \
+    src/hgles_window_pi.cpp
 
 CONFIG += c++11
 
@@ -45,4 +46,5 @@ HEADERS += \
     include/hgles_input_glfw.h \
     include/hgles_window_interface.h \
     include/hgles_input_interface.h \
-    include/hgles_input.h
+    include/hgles_input.h \
+    include/hgles_window_pi.h
