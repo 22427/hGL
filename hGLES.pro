@@ -22,13 +22,20 @@ SOURCES += \
 
 CONFIG += c++11
 
+exists(/opt/vc/lib/libmmal.so){
+
+DEFINES += HGLES_USE_PI
+-L/opt/vc/lib/ -lbcm_host -lvcos -lvchiq_arm -lGLESv2 -lEGL -lpthread -lrt
+}
+else{
 DEFINES += HGLES_USE_GLFW
+LIBS += -L./dep/lib -lglfw -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor
+}
 
 
 DESTDIR = lib
 OBJECTS_DIR = obj
 
-LIBS += -L./dep/lib -lglfw -lstb -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor
 
 HEADERS += \
     include/hgles_buffer.h \

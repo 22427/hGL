@@ -195,17 +195,6 @@ Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint3
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
