@@ -6,15 +6,12 @@
 #include <hgles_log.h>
 namespace hgles
 {
-
-
-
 unsigned int Window::m_glfw_initiated = 0;
 
-Window::Window(const uint32_t w, const uint32_t h)
-	:m_glfw_win(nullptr)
+Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint32_t y)
+	:m_glfw_win(nullptr), m_win_pos(x,y), m_win_sze(w,h)
 {
-	memset(m_key_state,0,512);
+	m_input_system = nullptr;
 	if(!m_glfw_initiated)
 	{
 		if (!glfwInit())
@@ -36,6 +33,7 @@ Window::Window(const uint32_t w, const uint32_t h)
 		CRIT_ERROR("Failed to create glfwWindow");
 
 	glfwMakeContextCurrent(m_glfw_win);
+	glfwSetWindowPos(m_glfw_win,x,y);
 
 	if(!m_glfw_initiated)
 	{
@@ -48,7 +46,10 @@ Window::Window(const uint32_t w, const uint32_t h)
 		m_glfw_initiated++;;
 	}
 	glfwSetWindowUserPointer(m_glfw_win,this);
-	glfwSetErrorCallback(&m_glfw_error_callback);
+
+	glfwSetWindowPosCallback(m_glfw_win,Window::m_glfw_window_pos_fun);
+	glfwSetWindowSizeCallback(m_glfw_win,Window::m_glfw_window_size_fun);
+
 }
 
 Window::~Window()
@@ -85,6 +86,18 @@ void Window::set_should_close(bool s_c)
 	glfwSetWindowShouldClose(m_glfw_win,s_c);
 }
 
+void Window::add_window_listener(WindowListener *wl)
+{
+	m_window_listeners.insert(wl);
+	wl->size_changed(m_win_sze.x,m_win_sze.y);
+	wl->position_changed(m_win_pos.x,m_win_pos.y);
+}
+
+void Window::remove_window_listener(WindowListener *wl)
+{
+	m_window_listeners.erase(m_window_listeners.find(wl));
+}
+
 void Window::poll_events()
 {
 	glfwPollEvents();
@@ -93,130 +106,6 @@ void Window::poll_events()
 void Window::set_title(const std::string &title)
 {
 	glfwSetWindowTitle(m_glfw_win,title.c_str());
-}
-
-void Window::set_size_callback(std::function<void (int, int)> fun)
-{
-	if(!m_size_fun)
-	{
-
-		glfwSetWindowSizeCallback(m_glfw_win,&m_glfw_window_size_fun);
-	}
-	m_size_fun = fun;
-	if(!m_size_fun)
-	{
-		glfwSetWindowSizeCallback(m_glfw_win,nullptr);
-	}
-	else
-	{
-		int w =0 ,h = 0;
-		glfwGetWindowSize(m_glfw_win,&w,&h);
-		m_size_fun(w,h);
-	}
-}
-
-void Window::set_position_callback(std::function<void (int, int)> fun)
-{
-	GLFW_KEY_ESCAPE
-
-	if(!m_pos_fun)
-	{
-		glfwSetWindowPosCallback(m_glfw_win,&m_glfw_window_pos_fun);
-	}
-	m_size_fun = fun;
-	if(!m_pos_fun)
-	{
-		glfwSetWindowPosCallback(m_glfw_win,nullptr);
-	}
-	else
-	{
-		int x =0 ,y = 0;
-		glfwGetWindowPos(m_glfw_win,&x,&y);
-		m_pos_fun(x,y);
-	}
-}
-
-void Window::set_button_callback(std::function<void (int, int, int)> fun)
-{
-	if(!m_mouse_button_fun)
-	{
-		glfwSetWindowPosCallback(m_glfw_win,&m_glfw_window_pos_fun);
-	}
-	m_mouse_button_fun = fun;
-	if(!fun)
-	{
-		glfwSetMouseButtonCallback(m_glfw_win,nullptr);
-	}
-}
-
-void Window::set_cursor_callback(std::function<void (double, double)> fun)
-{
-	if(!m_cursor_pos_fun)
-	{
-		glfwSetCursorPosCallback(m_glfw_win,&m_glfw_cursor_pos_fun);
-	}
-	m_cursor_pos_fun = fun;
-	if(!fun)
-	{
-		glfwSetCursorPosCallback(m_glfw_win,nullptr);
-	}
-}
-
-void Window::set_scroll_callback(std::function<void (double, double)> fun)
-{
-	if(!m_scroll_fun)
-	{
-		glfwSetScrollCallback(m_glfw_win,&m_glfw_scroll_fun);
-	}
-	m_scroll_fun = fun;
-	if(!fun)
-	{
-		glfwSetScrollCallback(m_glfw_win,nullptr);
-		return;
-	}
-}
-
-void Window::set_key_down_callback(std::function<void (int, int, int)> fun)
-{
-	if(!m_key_down_fun)
-	{
-		glfwSetKeyCallback(m_glfw_win,&m_glfw_key_fun);
-	}
-	m_key_down_fun = fun;
-	if(!fun)
-	{
-		glfwSetKeyCallback(m_glfw_win,nullptr);
-		return;
-	}
-}
-
-void Window::set_key_up_callback(std::function<void (int, int, int)> fun)
-{
-	if(!m_key_up_fun)
-	{
-		glfwSetKeyCallback(m_glfw_win,&m_glfw_key_fun);
-	}
-	m_key_up_fun = fun;
-	if(!fun)
-	{
-		glfwSetKeyCallback(m_glfw_win,nullptr);
-		return;
-	}
-}
-
-
-void Window::set_char_callback(std::function<void (unsigned int, int)> fun)
-{
-	if(!m_char_fun)
-	{
-		glfwSetCharModsCallback(m_glfw_win,&m_glfw_char_mods_fun);
-	}
-	m_char_fun = fun;
-	if(!fun)
-	{
-		glfwSetCharModsCallback(m_glfw_win,nullptr);
-		return;
-	}
 }
 
 void Window::set_fullscreen(bool fs)
@@ -275,64 +164,22 @@ void Window::set_decoration(bool dec)
 
 void Window::m_glfw_window_size_fun(GLFWwindow *win, int w, int h)
 {
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_size_fun)
-		c->m_size_fun(w,h);
+	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
+	ww->m_win_sze = glm::ivec2(w,h);
+	for(auto& l : ww->m_window_listeners)
+	{
+		l->size_changed(w,h);
+	}
 }
 
 void Window::m_glfw_window_pos_fun(GLFWwindow *win, int x, int y)
 {
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_pos_fun)
-		c->m_pos_fun(x,y);
-}
-
-void Window::m_glfw_mouse_button_fun(GLFWwindow *win, int button, int action, int mods)
-{
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_mouse_button_fun)
-		c->m_mouse_button_fun(button,action,mods);
-}
-
-void Window::m_glfw_cursor_pos_fun(GLFWwindow *win, double x, double y)
-{
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_cursor_pos_fun)
-		c->m_cursor_pos_fun(x,y);
-}
-
-void Window::m_glfw_scroll_fun(GLFWwindow *win, double x, double y)
-{
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_scroll_fun)
-		c->m_scroll_fun(x,y);
-}
-
-void Window::m_glfw_key_fun(GLFWwindow *win, int key, int scancode, int action, int mods)
-{
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_key_down_fun && action == GLFW_PRESS)
+	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
+	ww->m_win_pos = glm::ivec2(x,y);
+	for(auto& l : ww->m_window_listeners)
 	{
-		c->m_key_state[key] = 1;
-		c->m_key_down_fun(key,scancode,mods);
+		l->position_changed(x,y);
 	}
-	if(c->m_key_up_fun && action == GLFW_RELEASE)
-	{
-		c->m_key_state[key] = 0;
-		c->m_key_up_fun(key,scancode,mods);
-	}
-}
-
-void Window::m_glfw_char_mods_fun(GLFWwindow *win, unsigned int ch, int mod)
-{
-	Window* c = static_cast<Window*>(glfwGetWindowUserPointer(win));
-	if(c->m_char_fun)
-		c->m_char_fun(ch,mod);
-}
-
-void Window::m_glfw_error_callback(int err_no, const char *txt)
-{
-	ERROR("%d : %s",err_no,txt);
 }
 
 }

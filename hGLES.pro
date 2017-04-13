@@ -1,7 +1,8 @@
 TEMPLATE = lib
-
+#TEMPLATE = app
 TARGET = hGLES
 CONFIG   += dll
+DEFINES  += MGL_BUILDING_DLL
 CONFIG   -= app_bundle
 
 
@@ -15,11 +16,13 @@ SOURCES += \
     src/hgles_texture.cpp \
     src/hgles_vertex_array.cpp \
     src/hgles_shader.cpp \
-    src/hgles_window_glfw.cpp
+    src/hgles_window_glfw.cpp \
+    src/hgles_input_glfw.cpp
 
 CONFIG += c++11
 
 DEFINES += HGLES_USE_GLFW
+
 
 DESTDIR = lib
 OBJECTS_DIR = obj
@@ -37,6 +40,9 @@ HEADERS += \
     include/hgles_window.h \
     include/hgles_texture.h \
     include/hgles_window_glfw.h \
-    include/hgles_input.h \
     include/hgles_input_keys.h \
-    include/hgles_input_keys_glfw.h
+    include/hgles_input_keys_glfw.h \
+    include/hgles_input_glfw.h \
+    include/hgles_window_interface.h \
+    include/hgles_input_interface.h \
+    include/hgles_input.h

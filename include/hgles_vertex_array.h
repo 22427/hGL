@@ -15,7 +15,7 @@ protected:
 			GLuint attrib_index = 0,
 			GLint size = 0, GLenum type=GL_FLOAT,
 			GLboolean normalized=GL_FALSE,
-			GLsizei stride=0, const void *pointer=nullptr):b(b)
+			GLsizei stride=0, const void *pointer=nullptr):buffer(b)
 		{
 			this->index = attrib_index;
 			this->size = size;
@@ -24,7 +24,7 @@ protected:
 			this->stride = stride;
 			this->pointer = pointer;
 		}
-		Buffer* b;
+		Buffer* buffer;
 		GLuint index;
 		GLint size;
 		GLenum type;
@@ -50,41 +50,23 @@ public:
 		{
 			m_enabled_vaa[i] = false;
 		}
-
 		m_dirty = true;
+
 	}
 
 	friend class ContextState;
 
-	void elementBuffer(Buffer* b)
-	{
-		m_element_buffer = b;
-		m_dirty = true;
-	}
+	void elementBuffer(Buffer* b);
+	void vertexAttribPointer(Buffer* b,
+							 GLuint attrib_index,
+							 GLint size,
+							 GLenum type,
+							 GLboolean normalized,
+							 GLsizei stride,
+							 const void *pointer);
 
-	void vertexAttribPointer(Buffer* b, GLuint attrib_index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer)
-	{
-		m_vaps[attrib_index].b = b;
-		m_vaps[attrib_index].index = attrib_index;
-		m_vaps[attrib_index].size = size;
-		m_vaps[attrib_index].type = type;
-		m_vaps[attrib_index].normalized = normalized;
-		m_vaps[attrib_index].stride = stride;
-		m_vaps[attrib_index].pointer = pointer;
-		m_dirty = true;
-	}
-
-	void enableVertexAttribArray(GLuint attrib_index)
-	{
-		m_enabled_vaa[attrib_index] = true;
-		m_dirty = true;
-	}
-
-	void disableVertexAttribArray(GLuint attrib_index)
-	{
-		m_enabled_vaa[attrib_index] = false;
-		m_dirty = true;
-	}
+	void enableVertexAttribArray(GLuint attrib_index);
+	void disableVertexAttribArray(GLuint attrib_index);
 
 
 };

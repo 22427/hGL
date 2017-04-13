@@ -1,9 +1,25 @@
 #pragma once
 
-#ifdef HGLES_USE_GLFW
+#include <glad/glad.h>
+#define GLFW_INCLUDE_ES2
 #include <GLFW/glfw3.h>
 namespace hgles
 {
+enum Button
+{
+	BUTTON_0   =   GLFW_MOUSE_BUTTON_1,
+	BUTTON_1   =   GLFW_MOUSE_BUTTON_2,
+	BUTTON_2   =   GLFW_MOUSE_BUTTON_3,
+	BUTTON_3   =   GLFW_MOUSE_BUTTON_4,
+	BUTTON_4   =   GLFW_MOUSE_BUTTON_5,
+	BUTTON_5   =   GLFW_MOUSE_BUTTON_6,
+	BUTTON_6   =   GLFW_MOUSE_BUTTON_7,
+	BUTTON_7   =   GLFW_MOUSE_BUTTON_8,
+	BUTTON_LEFT      = GLFW_MOUSE_BUTTON_1,
+	BUTTON_RIGHT     = GLFW_MOUSE_BUTTON_2,
+	BUTTON_MIDDLE    = GLFW_MOUSE_BUTTON_3,
+	BUTTON_LAST      = GLFW_MOUSE_BUTTON_8,
+};
 enum Key
 {
 	KEY_UNKNOWN            = GLFW_KEY_UNKNOWN        ,
@@ -127,7 +143,7 @@ enum Key
 	KEY_RIGHT_ALT          = GLFW_KEY_RIGHT_ALT       ,
 	KEY_RIGHT_SUPER        = GLFW_KEY_RIGHT_SUPER     ,
 	KEY_MENU               = GLFW_KEY_MENU            ,
+	KEY_LAST               = GLFW_KEY_LAST
 };
 }
 
-#endif

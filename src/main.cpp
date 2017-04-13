@@ -1,32 +1,34 @@
-#if 0
+#ifndef MGL_BUILDING_DLL
 #include "hgles_context_state.h"
-#include "hgles_glfw_window.h"
+#include "hgles_window.h"
+#include "hgles_input_interface.h"
 
-class OpenGLApplication
+class OpenGLApplication : public hgles::WindowListener, public hgles::KeyboardListener
 {
-	hgles::Window_GLFW win;
+	hgles::Window win;
+	hgles::InputSystem ins;
 	hgles::ContextState cs;
 
 	hgles::VertexArray* vao;
 	hgles::Buffer* vbo;
-
+	float brightness;
 public:
-	void handle_keys(int key, int /*code*/, int /*modifier*/)
-	{
-		if(key == GLFW_KEY_ESCAPE)
-			win.set_should_close();
-		if(key == GLFW_KEY_D)
-			win.toggle_decoration();
-		if(key == GLFW_KEY_F)
-			win.toggle_fullscreen();
-	}
+
 	OpenGLApplication():win(800,600)
 	{
+		// setup the system:
+		// init the input system. It needs the window to do so.
+		ins.init(&win);
+		brightness = 1.0f;
+
+		// in order to access events we need to register as listener
+		win.add_window_listener(this);
+		ins.add_keyboard_listener(this);
+
+		// lets create some simple geometry
 		float vd[] = {-1,-1,0,
 					  1,-1,0,
 					  0,1,0};
-
-		// Lets make some opengl 4.5 geometry!
 		// create vao
 		vao = cs.createVertexArray();
 		// create vbo
@@ -40,22 +42,25 @@ public:
 		// set the attributes format: how does one of this attributes look like
 		// insida a set of attributes.
 		vao->enableVertexAttribArray(attrib_id);
-		vao->vertexAttribPointer(vbo,attrib_id,3,GL_FLOAT,GL_FALSE,3*sizeof(float),0);
-
-
+		vao->vertexAttribPointer(vbo,
+								 attrib_id,
+								 3,
+								 GL_FLOAT,
+								 GL_FALSE,
+								 3*sizeof(float),
+								 0);
 
 		// create a shader using a util_ function ... making it easy to
-		// create a shader from two strings.
+		// create a shader from a strings.
 
 		auto p = cs.createProgram();
 		auto vs = cs.util_create_shader(GL_VERTEX_SHADER,
-											"#version 100\n "
+										   "#version 100\n "
 										   "attribute vec3 pos; \n"
 										   "void main(){\n"
 										   "gl_Position = vec4(pos,1.0);\n}");
 		auto fs = cs.util_create_shader(GL_FRAGMENT_SHADER,
 										   "#version 100\n "
-										   //"out vec4 clr; \n"
 										   "void main(){\n"
 										   "gl_FragColor = vec4(1,0,0,1);\n}");
 		p->attachShader(vs);
@@ -65,16 +70,6 @@ public:
 		// we wont use any other program so we can bind it and keep it that way!
 		cs.useProgram(p);
 
-
-		//setting the resize callback  callback as a lambda.
-		win.set_size_callback([this](int w, int h){glViewport(0,0,w,h);});
-
-		// settting a method as the key_up callback using lambdas
-		win.set_key_up_callback(
-					[this](int a, int b, int c)
-		{
-			this->handle_keys(a,b,c);
-		});
 	}
 
 	void start_rendering()
@@ -84,10 +79,14 @@ public:
 		{
 			i++;
 			if(i%60<30)
-				glClearColor(0,1,0,1);
+				glClearColor(0,brightness,0,1);
 			else
-				glClearColor(0,0,1,1);
+				glClearColor(0,0,brightness,1);
 
+			if(ins.is_key_down(hgles::KEY_UP) && brightness < 1.0f)
+				brightness+=0.01f;
+			if(ins.is_key_down(hgles::KEY_DOWN) && brightness >=0.0f)
+				brightness-=0.01f;
 			glClear(GL_COLOR_BUFFER_BIT);
 			cs.bindVertexArray(vao);
 			glDrawArrays(GL_TRIANGLES,0,3);
@@ -98,6 +97,20 @@ public:
 			win.poll_events();
 		}
 	}
+
+	void size_changed(const int w, const int h)
+	{
+		glViewport(0,0,w,h);
+	}
+
+	void key_down(const hgles::Key k)
+	{
+		if(k == hgles::KEY_ESCAPE)
+		{
+			win.set_should_close();
+		}
+	}
+
 };
 int main()
 {

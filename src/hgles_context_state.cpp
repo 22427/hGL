@@ -73,14 +73,14 @@ void ContextState::bindVertexArray(VertexArray *vao)
 			for(uint8_t i = 0 ; i < 8 ; i++)
 			{
 				const auto& v = vao->m_vaps[i];
-				if(!v.b)
+				if(!v.buffer)
 					continue;
 				if(vao->m_enabled_vaa[i] )
 				{
 					if(!m_vao->m_enabled_vaa[i]) // attribute was not enabled
 						glEnableVertexAttribArray(v.index);
 
-					bindBuffer(GL_ARRAY_BUFFER,v.b);
+					bindBuffer(GL_ARRAY_BUFFER,v.buffer);
 					glVertexAttribPointer(v.index,
 										  v.size,
 										  v.type,
@@ -105,7 +105,7 @@ void ContextState::bindBuffer(const GLenum target, const Buffer *b)
 {
 
 	auto& m_b = (target == GL_ARRAY_BUFFER)?(m_array_buf):(m_index_buf) ;
-	if(b && m_b->name != b->name)
+	if(b && m_b != b)
 		glBindBuffer(target,b->name);
 	else if(!b)
 		glBindBuffer(target,0);
@@ -114,18 +114,18 @@ void ContextState::bindBuffer(const GLenum target, const Buffer *b)
 
 
 
-void ContextState::bindTexture(const GLenum target, const Texture *b)
+void ContextState::bindTexture(const GLenum target, const Texture *t)
 {
 
 	auto& curr = m_tu[m_active_tu].tex2d;
 	if(target == GL_TEXTURE_CUBE_MAP)
 		curr = m_tu[m_active_tu].cube;
 
-	if(b && curr != b)
-		glBindTexture(target,b->name);
-	else if(!b)
+	if(t && curr != t)
+		glBindTexture(target,t->name);
+	else if(!t)
 		glBindTexture(target,0);
-	curr = b;
+	curr = t;
 
 }
 
