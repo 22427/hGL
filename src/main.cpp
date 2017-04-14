@@ -83,9 +83,9 @@ public:
 			else
 				glClearColor(0,0,brightness,1);
 
-			if(ins.is_key_down(hgles::KEY_UP) && brightness < 1.0f)
+			if(ins.is_key_down(hgles::K_UP) && brightness < 1.0f)
 				brightness+=0.01f;
-			if(ins.is_key_down(hgles::KEY_DOWN) && brightness >=0.0f)
+			if(ins.is_key_down(hgles::K_DOWN) && brightness >=0.0f)
 				brightness-=0.01f;
 			glClear(GL_COLOR_BUFFER_BIT);
 			cs.bindVertexArray(vao);
@@ -106,7 +106,7 @@ public:
 
 	void key_down(const hgles::Key k)
 	{
-		if(k == hgles::KEY_ESCAPE)
+		if(k == hgles::K_ESCAPE)
 		{
 			win.set_should_close();
 		}
