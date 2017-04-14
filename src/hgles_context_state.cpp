@@ -60,13 +60,13 @@ void ContextState::bindVertexArray(VertexArray *vao)
 			{
 				glDisableVertexAttribArray(i);
 			}
-			bindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-			bindBuffer(GL_ARRAY_BUFFER,0);
+			bindBuffer(GL_ELEMENT_ARRAY_BUFFER,nullptr);
+			bindBuffer(GL_ARRAY_BUFFER,nullptr);
 		}
 	}
 	else
 	{
-		if(glBindVertexArrayOES)
+		if(glBindVertexArrayOES && (!m_vao || vao->name != m_vao->name))
 			glBindVertexArrayOES(vao->name);
 		else
 		{
@@ -77,7 +77,7 @@ void ContextState::bindVertexArray(VertexArray *vao)
 					continue;
 				if(vao->m_enabled_vaa[i] )
 				{
-					if(!m_vao->m_enabled_vaa[i]) // attribute was not enabled
+					if(!m_vao || !(m_vao->m_enabled_vaa[i])) // attribute was not enabled
 						glEnableVertexAttribArray(v.index);
 
 					bindBuffer(GL_ARRAY_BUFFER,v.buffer);
@@ -88,7 +88,7 @@ void ContextState::bindVertexArray(VertexArray *vao)
 										  v.stride,
 										  v.pointer);
 				}
-				else if(m_vao->m_enabled_vaa[i]) // attribute was enabled
+				else if(m_vao && m_vao->m_enabled_vaa[i]) // attribute was enabled
 					glDisableVertexAttribArray(i);
 			}
 			if(vao->m_element_buffer)
@@ -105,10 +105,10 @@ void ContextState::bindBuffer(const GLenum target, const Buffer *b)
 {
 
 	auto& m_b = (target == GL_ARRAY_BUFFER)?(m_array_buf):(m_index_buf) ;
-	if(b && m_b != b)
-		glBindBuffer(target,b->name);
-	else if(!b)
+	if(!b)
 		glBindBuffer(target,0);
+	else if(!m_b || b->name != m_b->name)
+		glBindBuffer(target,b->name);
 	m_b = b;
 }
 
