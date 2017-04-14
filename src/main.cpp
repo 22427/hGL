@@ -95,6 +95,7 @@ public:
 			win.swap_buffers();
 			// check for new events!
 			win.poll_events();
+			ins.poll_events();
 		}
 	}
 
