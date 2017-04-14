@@ -55,7 +55,7 @@ EGL_DISPMANX_WINDOW_T m_win_handle;
 public:
 	friend class InputSystem;
 	Window(const uint32_t w, const uint32_t h, const uint32_t x=0, const uint32_t y=0);
-	~Window();
+	~Window(){}
 	void make_current()
 	{
 		if(!eglMakeCurrent(m_display, m_surface, m_surface, m_context))
@@ -74,14 +74,14 @@ public:
 	void set_title(const std::string &/*title*/){};
 
 	void toggle_fullscreen(){/*TODO*/}
-	void set_fullscreen(bool fs){/*TODO*/}
+	void set_fullscreen(bool /*fs*/){/*TODO*/}
 	void toggle_decoration(){}
-	void set_decoration(bool dec){}
+	void set_decoration(bool /*dec*/){}
 	bool should_close(){return m_should_close;}
 	void set_should_close(bool s_c = true){m_should_close =s_c;}
 
-	void add_window_listener(WindowListener *wl){/*TODO*/}
-	void remove_window_listener(WindowListener *wl){/*TODO*/}
+	void add_window_listener(WindowListener* /*wl*/){/*TODO*/}
+	void remove_window_listener(WindowListener* /*wl*/){/*TODO*/}
 };
 
 }

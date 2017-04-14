@@ -1,7 +1,7 @@
 #ifndef MGL_BUILDING_DLL
 #include "hgles_context_state.h"
 #include "hgles_window.h"
-#include "hgles_input_interface.h"
+#include "hgles_input.h"
 
 class OpenGLApplication : public hgles::WindowListener, public hgles::KeyboardListener
 {
