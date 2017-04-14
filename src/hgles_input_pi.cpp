@@ -135,10 +135,16 @@ void InputSystem::turn_on_keyboards()
 	// prepare input devices
 	for(const auto& d : kb)
 	{
-		auto e = "/dev/input/"+d.get_handler_starting_with("event");
+		auto e = d.get_handler_starting_with("event");
 		if(!e.empty())
 		{
+			e = "/dev/input/"+e;
 			pfd.fd = open(e.c_str(),O_RDONLY| O_NONBLOCK);
+			if(pfd.fd < 0)
+			{
+				ERROR("Failed to open '%s'. Errno: %d",e.c_str(),errno);
+				continue;
+			}
 			pfd.events = POLLIN | POLLPRI;
 			m_observed_keyboards.push_back(pfd);
 		}
@@ -167,6 +173,13 @@ void InputSystem::turn_on_mice()
 		auto e = d.get_handler_starting_with("event");
 		if(!e.empty())
 		{
+			e = "/dev/input/"+e;
+			pfd.fd = open(e.c_str(),O_RDONLY| O_NONBLOCK);
+			if(pfd.fd < 0)
+			{
+				ERROR("Failed to open '%s'. Errno: %d",e.c_str(),errno);
+				continue;
+			}
 			pfd.fd = open(e.c_str(),O_RDONLY);
 			pfd.events = POLLIN | POLLPRI;
 			m_observed_mice.push_back(pfd);
