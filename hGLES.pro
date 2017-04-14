@@ -23,13 +23,15 @@ SOURCES += \
 CONFIG += c++11
 
 exists(/opt/vc/lib/libmmal.so){
-
 DEFINES += HGLES_USE_PI
--L/opt/vc/lib/ -lbcm_host -lvcos -lvchiq_arm -lGLESv2 -lEGL -lpthread -lrt
+LIBS += -L/opt/vc/lib/ -ldl -lbcm_host -lvcos -lvchiq_arm -lGLESv2 -lEGL -lpthread -lrt
+INCLUDEPATH += /opt/vc/include/
+QMAKE_CXXFLAGS += -Wno-variadic-macros -std=c++11
+
 }
 else{
 DEFINES += HGLES_USE_GLFW
-LIBS += -L./dep/lib -lglfw -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor
+LIBS += -L./dep/lib -lglfw -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor 
 }
 
 
@@ -55,3 +57,5 @@ HEADERS += \
     include/hgles_input_interface.h \
     include/hgles_input.h \
     include/hgles_window_pi.h
+
+
