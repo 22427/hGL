@@ -135,10 +135,10 @@ void InputSystem::turn_on_keyboards()
 	// prepare input devices
 	for(const auto& d : kb)
 	{
-		auto e = d.get_handler_starting_with("event");
+		auto e = "/dev/input/"+d.get_handler_starting_with("event");
 		if(!e.empty())
 		{
-			pfd.fd = open(e.c_str(),O_RDONLY);
+			pfd.fd = open(e.c_str(),O_RDONLY| O_NONBLOCK);
 			pfd.events = POLLIN | POLLPRI;
 			m_observed_keyboards.push_back(pfd);
 		}
@@ -262,7 +262,10 @@ void InputSystem::poll_events()
 		if(pres > 0)
 			for(const auto& k : m_observed_keyboards)
 			{
-				auto r = read(k.fd,&ie,sizeof(ie));
+				if(!(k.revents & (POLLIN | POLLPRI)))
+						continue;
+
+				auto r = read(k.fd,&ie,sizeof(input_event)*32);
 				r = r/sizeof (input_event);
 				for(int i = 0; i< r;i++)
 				{
@@ -305,7 +308,10 @@ void InputSystem::poll_events()
 		if(pres > 0)
 			for(const auto& m : m_observed_mice)
 			{
-				auto r = read(m.fd,&ie,sizeof(ie));
+				if(!(m.revents & (POLLIN | POLLPRI)))
+						continue;
+
+				auto r = read(m.fd,&ie,sizeof(input_event)*32);
 				r = r/sizeof (input_event);
 				for(int i = 0; i< r;i++)
 				{
