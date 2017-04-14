@@ -39,8 +39,8 @@ namespace hgles
 		void add_mouse_listener(MouseListener *ml);
 		void remove_mouse_listener(MouseListener *ml);
 
-		void add_character_listener(CharacterListener */*cl*/){}
-		void remove_character_listener(CharacterListener */*cl*/){}
+		void add_character_listener(CharacterListener* cl);
+		void remove_character_listener(CharacterListener* cl);
 
 		bool is_key_down(const Key k){return m_key_state[k];}
 		bool is_button_down(const Button b){return m_button_state[b];}
