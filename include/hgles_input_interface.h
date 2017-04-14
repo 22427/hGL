@@ -34,6 +34,8 @@ class InputSystemInterface
 {
 public:
 	virtual void init(Window* w) = 0;
+	virtual void poll_events() = 0;
+
 	virtual void add_keyboard_listener(KeyboardListener* kbl) = 0;
 	virtual void add_mouse_listener(MouseListener* ml) = 0;
 	virtual void add_character_listener(CharacterListener* cl) = 0;

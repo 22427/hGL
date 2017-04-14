@@ -10,7 +10,7 @@ namespace hgles
 			public InputSystemInterface
 			#endif
 	{
-		uint8_t m_key_state[KEY_LAST+1];
+		uint8_t m_key_state[K_LAST+1];
 		uint8_t m_button_state[BUTTON_LAST+1];
 		std::unordered_set<KeyboardListener*> m_keyboard_listener;
 		std::unordered_set<MouseListener*> m_mouse_listener;
@@ -36,5 +36,7 @@ namespace hgles
 		bool is_key_down(const Key k);
 		bool is_button_down(const Button b);
 
+		// done by the glfw window ....
+		void poll_events(){};
 	};
 }

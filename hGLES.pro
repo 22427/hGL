@@ -18,7 +18,8 @@ SOURCES += \
     src/hgles_shader.cpp \
     src/hgles_window_glfw.cpp \
     src/hgles_input_glfw.cpp \
-    src/hgles_window_pi.cpp
+    src/hgles_window_pi.cpp \
+    src/hgles_input_pi.cpp
 
 CONFIG += c++11
 
@@ -51,8 +52,10 @@ HEADERS += \
     include/hgles_texture.h \
     include/hgles_window_glfw.h \
     include/hgles_input_keys.h \
-    include/hgles_input_keys_glfw.h \
-    include/hgles_input_glfw.h \
+	include/hgles_input_keys_glfw.h \
+	include/hgles_input_keys_pi.h \
+	include/hgles_input_glfw.h \
+	include/hgles_input_pi.h \
     include/hgles_window_interface.h \
     include/hgles_input_interface.h \
     include/hgles_input.h \

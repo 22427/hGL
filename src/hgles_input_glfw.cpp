@@ -96,7 +96,7 @@ void InputSystem::m_glfw_cursor_cb(GLFWwindow *win, double x, double y)
 
 InputSystem::InputSystem()
 {
-	memset(m_key_state,0,KEY_LAST+1);
+	memset(m_key_state,0,K_LAST+1);
 	memset(m_button_state,0,BUTTON_LAST+1);
 }
 
