@@ -47,7 +47,7 @@ static int max_loaded_major;
 static int max_loaded_minor;
 
 static const char *exts = NULL;
-static int num_exts_i = 0;
+//static int num_exts_i = 0;
 static const char **exts_i = NULL;
 
 static int get_exts(void) {
@@ -536,12 +536,24 @@ static void find_coreGLES2(void) {
 int gladLoadGLES2Loader(GLADloadproc load) {
 	GLVersion.major = 0; GLVersion.minor = 0;
 	glGetString = (PFNGLGETSTRINGPROC)load("glGetString");
-	if(glGetString == NULL) return 0;
-	if(glGetString(GL_VERSION) == NULL) return 0;
+	if(glGetString == NULL)
+	{
+		fprintf(stderr, "GLAD: unable to load glGetString\n");
+		return 0;
+	}
+	if(glGetString(GL_VERSION) == NULL) 
+	{
+		fprintf(stderr, "GLAD: glGetString(GL_VERSION) == NULL\n");
+		return 0;
+	}
 	find_coreGLES2();
 	load_GL_ES_VERSION_2_0(load);
 
-	if (!find_extensionsGLES2()) return 0;
+	if (!find_extensionsGLES2()) 
+	{
+		fprintf(stderr, "GLAD: find_extensionsGLES2() failed\n");
+		return 0;
+	}
 	load_GL_EXT_debug_marker(load);
 	load_GL_EXT_discard_framebuffer(load);
 	load_GL_OES_EGL_image(load);
