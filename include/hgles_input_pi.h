@@ -32,6 +32,7 @@ namespace hgles
 		int m_wheel_position[2];
 	public:
 		InputSystem();
+		~InputSystem();
 		void init(Window *w);
 		void add_keyboard_listener(KeyboardListener *kbl);
 		void remove_keyboard_listener(KeyboardListener *kbl);

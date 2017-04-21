@@ -236,6 +236,12 @@ namespace hgles
 
 	}
 
+	InputSystem::~InputSystem()
+	{
+		turn_off_mice();
+		turn_off_keyboards();
+	}
+
 	void InputSystem::init(Window *w)
 	{
 		m_cursor_position[0] = w->m_win_sze.x/2;
