@@ -29,31 +29,30 @@ namespace hgles
 		VC_RECT_T src_rect;
 
 
-		unsigned int display_width;
-		unsigned int display_height;
+//		unsigned int display_width = 0;
+//		unsigned int display_height =0 ;
 
 		success = graphics_get_display_size(
 				0 /* LCD */,
-				&display_width,
-				&display_height);
+				&m_display_sze.x,
+				&m_display_sze.y);
 
 		if ( success < 0 )
 		{
 			return false;
 		}
 
-		display_width = width;
-		display_height = height;
+
 
 		dst_rect.x = x;
 		dst_rect.y = y;
-		dst_rect.width = display_width;
-		dst_rect.height = display_height;
+		dst_rect.width = width;
+		dst_rect.height = height;
 
 		src_rect.x = x;
 		src_rect.y = y;
-		src_rect.width = display_width << 16;
-		src_rect.height = display_height << 16;
+		src_rect.width = width << 16;
+		src_rect.height = height << 16;
 
 		dispman_display = vc_dispmanx_display_open( 0 /* LCD */);
 		dispman_update = vc_dispmanx_update_start( 0 );
@@ -71,8 +70,8 @@ namespace hgles
 				(DISPMANX_TRANSFORM_T) 0/*transform*/);
 
 		nativewindow.element = dispman_element;
-		nativewindow.width = display_width;
-		nativewindow.height = display_height;
+		nativewindow.width = width;
+		nativewindow.height = height;
 		vc_dispmanx_update_submit_sync( dispman_update );
 
 		return true;
@@ -223,6 +222,9 @@ namespace hgles
 
 	Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint32_t y)
 	{
+		m_pos = m_win_pos = glm::ivec2(x,y);
+		m_sze = m_win_sze = glm::ivec2(w,h);
+
 		m_should_close = false;
 		EGLint attribList[] =
 		{
@@ -275,3 +277,6 @@ namespace hgles
 
 
 #endif
+
+
+

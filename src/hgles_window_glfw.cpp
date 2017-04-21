@@ -182,5 +182,39 @@ void Window::m_glfw_window_pos_fun(GLFWwindow *win, int x, int y)
 	}
 }
 
+void Window::set_size(const int w, const int h)
+{
+	glfwSetWindowSize(m_glfw_win,w>0?w:1,h>0?h:1);
+}
+
+void Window::set_size(const glm::ivec2 &sze)
+{
+	set_size(sze.x,sze.y);
+}
+
+glm::ivec2 Window::get_size() const
+{
+	glm::ivec2 r;
+	glfwGetWindowSize(m_glfw_win,&(r.x),&(r.y));
+	return r;
+}
+
+void Window::set_position(const int x, const int y)
+{
+	glfwSetWindowPos(m_glfw_win,x,y);
+}
+
+void Window::set_position(const glm::ivec2 &pos)
+{
+	set_position(pos.x,pos.y);
+}
+
+glm::ivec2 Window::get_position() const
+{
+	glm::ivec2 r;
+	glfwGetWindowPos(m_glfw_win,&(r.x),&(r.y));
+	return r;
+}
+
 }
 #endif

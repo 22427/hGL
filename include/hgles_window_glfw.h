@@ -54,6 +54,16 @@ public:
 
 	void add_window_listener(WindowListener *wl);
 	void remove_window_listener(WindowListener *wl);
+
+
+
+	void set_size(const int w, const int h);
+	void set_size(const glm::ivec2& sze);
+	glm::ivec2 get_size() const;
+
+	void set_position(const int x, const int y);
+	void set_position(const glm::ivec2& pos);
+	glm::ivec2 get_position() const;
 };
 
 }

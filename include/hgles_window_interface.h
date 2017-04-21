@@ -2,6 +2,7 @@
 
 #include <string>
 #include <functional>
+#include <glm/vec2.hpp>
 
 namespace hgles {
 
@@ -42,6 +43,17 @@ public:
 
 	virtual bool should_close() =0;
 	virtual void set_should_close(bool s_c = true) =0;
+
+
+	virtual void set_size(const int w, const int h) =0 ;
+	virtual void set_size(const glm::ivec2& sze) =0 ;
+	virtual glm::ivec2 get_size() const =0 ;
+
+	virtual void set_position(const int x, const int y) =0 ;
+	virtual void set_position(const glm::ivec2& pos) =0 ;
+	virtual glm::ivec2 get_position() const  =0 ;
+
+
 
 };
 #endif

@@ -87,6 +87,21 @@ public:
 				brightness+=0.01f;
 			if(ins.is_key_down(hgles::K_DOWN) && brightness >=0.0f)
 				brightness-=0.01f;
+			if(ins.is_key_down(hgles::K_KP_ADD))
+				win.set_size(win.get_size()+glm::ivec2(10));
+			if(ins.is_key_down(hgles::K_KP_SUBTRACT))
+				win.set_size(win.get_size()-glm::ivec2(10));
+
+			if(ins.is_key_down(hgles::K_W))
+				win.set_position(win.get_position()+glm::ivec2(0,-10));
+			if(ins.is_key_down(hgles::K_A))
+				win.set_position(win.get_position()+glm::ivec2(-10,0));
+			if(ins.is_key_down(hgles::K_S))
+				win.set_position(win.get_position()+glm::ivec2(0,10));
+			if(ins.is_key_down(hgles::K_D))
+				win.set_position(win.get_position()+glm::ivec2(10,0));
+
+
 			glClear(GL_COLOR_BUFFER_BIT);
 			cs.bindVertexArray(vao);
 			glDrawArrays(GL_TRIANGLES,0,3);

@@ -31,6 +31,11 @@ protected:
 	glm::ivec2 m_win_pos;
 	glm::ivec2 m_win_sze;
 
+
+	glm::ivec2 m_pos;
+	glm::ivec2 m_sze;
+	glm::ivec2 m_display_sze;
+
 #ifdef HGLES_USE_PI
 EGL_DISPMANX_WINDOW_T m_win_handle;
 #endif
@@ -82,6 +87,17 @@ public:
 
 	void add_window_listener(WindowListener* /*wl*/){/*TODO*/}
 	void remove_window_listener(WindowListener* /*wl*/){/*TODO*/}
+
+
+	void set_size(const int w, const int h){}
+	void set_size(const glm::ivec2& sze){}
+	glm::ivec2 get_size() const{return m_sze;}
+
+	void set_position(const int x, const int y){}
+	void set_position(const glm::ivec2& pos){}
+	glm::ivec2 get_position() const {return m_pos;}
+
+
 };
 
 }
