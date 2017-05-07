@@ -1,17 +1,18 @@
 #pragma once
-#include <glad/glad.h>
+
+#include "dep/glad/glad.h"
 #include <functional>
 
 #include <cstring>
 #include <unordered_set>
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/mat2x2.hpp>
-#include <glm/mat3x3.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "dep/glm/vec2.hpp"
+#include "dep/glm/vec3.hpp"
+#include "dep/glm/vec4.hpp"
+#include "dep/glm/mat2x2.hpp"
+#include "dep/glm/mat3x3.hpp"
+#include "dep/glm/mat4x4.hpp"
+#include "dep/glm/gtc/type_ptr.hpp"
 
 #include "hgles_window.h"
 #include "hgles_log.h"
@@ -177,6 +178,11 @@ public:
 					const GLint first,
 					const GLsizei count) const;
 
+	void DrawElements(GLenum mode,
+					  GLsizei count,
+					  GLenum type,
+					  const GLvoid * indices) const;
+
 	// Shader ##################################################################
 	GLuint CreateShader(const GLenum type) const;
 	void DeleteShader(const GLuint shader) const;
@@ -222,8 +228,5 @@ public:
 							const std::string& fs_path) const;
 	std::string util_error_string(const GLenum error) const;
 	bool util_error_check(const std::string &tect) const;
-
 };
-
-
 }

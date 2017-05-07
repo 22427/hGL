@@ -1,12 +1,15 @@
 #ifdef HGLES_USE_PI
-#include <hgles_window_pi.h>
-#include <glad/glad.h>
 
 #ifdef _WIN32
 #include <windows.h>
 #else
 #include <dlfcn.h>
 #endif
+
+#include "../include/hgles_window_pi.h"
+#include "../include/glad/glad.h"
+
+
 
 namespace hgles
 {

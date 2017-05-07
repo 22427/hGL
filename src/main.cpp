@@ -67,6 +67,8 @@ public:
 
 		gles.LinkProgram(p);
 
+		gles.DeleteShader(vs);
+		gles.DeleteShader(fs);
 		// we wont use any other program so we can bind it and keep it that way!
 		gles.UseProgram(p);
 

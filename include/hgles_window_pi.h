@@ -1,16 +1,15 @@
 #pragma once
 #include "hgles_window_interface.h"
+#include "hgles_dll.h"
+#include "dep/glad/glad.h"
+#include "dep/glm/vec2.hpp"
+#include "hgles_log.h"
 
 #include <functional>
-#include "hgles_dll.h"
-
-#include <glad/glad.h>
-
-#include <glm/vec2.hpp>
 #include <vector>
 #include <unordered_set>
 #include <EGL/egl.h>
-#include <hgles_log.h>
+
 #ifdef HGLES_USE_PI
 extern "C"
 {

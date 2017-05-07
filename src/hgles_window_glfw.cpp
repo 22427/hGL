@@ -1,9 +1,10 @@
 #ifdef HGLES_USE_GLFW
-#include <hgles_window_glfw.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <cstring>
-#include <hgles_log.h>
+
+#include "../include/hgles_window_glfw.h"
+#include "../include/dep/glad/glad.h"
+#include "../include/dep/GLFW/glfw3.h"
+#include "../include/hgles_log.h"
 namespace hgles
 {
 unsigned int Window::m_glfw_initiated = 0;
@@ -33,7 +34,7 @@ Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint3
 		CRIT_ERROR("Failed to create glfwWindow");
 
 	glfwMakeContextCurrent(m_glfw_win);
-	glfwSetWindowPos(m_glfw_win,x,y);
+	glfwSetWindowPos(m_glfw_win,static_cast<int>(x),static_cast<int>(y));
 
 	if(!m_glfw_initiated)
 	{

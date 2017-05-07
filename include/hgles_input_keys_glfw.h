@@ -1,8 +1,8 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "dep/glad/glad.h"
 #define GLFW_INCLUDE_ES2
-#include <GLFW/glfw3.h>
+#include "dep/GLFW/glfw3.h"
 namespace hgles
 {
 enum Button

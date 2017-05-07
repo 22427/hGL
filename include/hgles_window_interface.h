@@ -1,8 +1,9 @@
 #pragma once
+#include "dep/glm/vec2.hpp"
 
 #include <string>
 #include <functional>
-#include <glm/vec2.hpp>
+
 
 namespace hgles {
 

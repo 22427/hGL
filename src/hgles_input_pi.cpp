@@ -1,6 +1,4 @@
 #ifdef HGLES_USE_PI
-#include <hgles_input_pi.h>
-#include <hgles_log.h>
 #include <cstdio>
 #include <stdlib.h>
 #include <cstring>
@@ -17,7 +15,12 @@
 #include <iostream>
 #include <algorithm>
 #include <termios.h>
-namespace idev {
+
+#include "../include/hgles_input_pi.h"
+#include "../include/hgles_log.h"
+
+namespace idev
+{
 #define IDEV_KEYBOARD_EVENTS "120013"
 #define IDEV_MOUSE_EVENTS "17"
 #define IDEV_B_EVENTS "EV"

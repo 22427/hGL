@@ -1,7 +1,8 @@
-#include <hgles_context_state.h>
 #include <fstream>
 #include <cstring>
-#include <hgles_log.h>
+
+#include "../include/hgles_context_state.h"
+#include "../include/hgles_log.h"
 
 namespace hgles {
 
@@ -226,6 +227,11 @@ void ContextState::DisableVertexAttribArray(const GLuint index)
 void ContextState::DrawArrays(const GLenum mode, const GLint first, const GLsizei count) const
 {
 	glad_glDrawArrays(mode,first,count);
+}
+
+void ContextState::DrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) const
+{
+	glad_glDrawElements(mode,count,type,indices);
 }
 
 GLuint ContextState::CreateShader(const GLenum type) const

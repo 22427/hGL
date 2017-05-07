@@ -1,9 +1,11 @@
-TEMPLATE = lib
-TEMPLATE = app
 TARGET = hGLES
+
+TEMPLATE = lib
+#TEMPLATE = app
+
 #CONFIG   += dll
-#CONFIG += staticlib
-#DEFINES  += MGL_BUILDING_DLL
+CONFIG += staticlib
+bDEFINES  += MGL_BUILDING_DLL
 CONFIG   -= app_bundle
 
 
