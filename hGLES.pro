@@ -1,22 +1,18 @@
 TEMPLATE = lib
-#TEMPLATE = app
+TEMPLATE = app
 TARGET = hGLES
 #CONFIG   += dll
-CONFIG += staticlib
-DEFINES  += MGL_BUILDING_DLL
+#CONFIG += staticlib
+#DEFINES  += MGL_BUILDING_DLL
 CONFIG   -= app_bundle
 
 
-INCLUDEPATH += include/dep\			   
+INCLUDEPATH += include/dep\
                include
-SOURCES += \ 
+SOURCES += \
     src/main.cpp \
     dep/glad/src/glad.c \
-    src/hgles_buffer.cpp \
-    src/hgles_context_state.cpp \
-    src/hgles_texture.cpp \
-    src/hgles_vertex_array.cpp \
-    src/hgles_shader.cpp \
+	src/hgles_context_state.cpp \
     src/hgles_window_glfw.cpp \
     src/hgles_input_glfw.cpp \
     src/hgles_window_pi.cpp \
@@ -42,15 +38,10 @@ OBJECTS_DIR = obj
 
 
 HEADERS += \
-    include/hgles_buffer.h \
     include/hgles_context_state.h \
     include/hgles_dll.h \
     include/hgles_log.h \
-    include/hgles_object.h \
-    include/hgles_shader.h \
-    include/hgles_vertex_array.h \
     include/hgles_window.h \
-    include/hgles_texture.h \
     include/hgles_window_glfw.h \
     include/hgles_input_keys.h \
 	include/hgles_input_keys_glfw.h \

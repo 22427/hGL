@@ -16,7 +16,7 @@ mkdir -p ../include/dep
 #cp -r stb_build/stb 	../include/dep/
 cp -r glad/include/glad ../include/dep/
 cp -r glfw/include/GLFW ../include/dep/
-cp -r glm/	 			../include/dep/
+cp -r glm/glm 			../include/dep/
 cp -r glad/include/KHR/ ../include/dep/
 
 cd lib

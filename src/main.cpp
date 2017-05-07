@@ -7,10 +7,10 @@ class OpenGLApplication : public hgles::WindowListener, public hgles::KeyboardLi
 {
 	hgles::Window win;
 	hgles::InputSystem ins;
-	hgles::ContextState cs;
+	hgles::ContextState gles;
 
-	hgles::VertexArray* vao;
-	hgles::Buffer* vbo;
+	GLuint vao;
+	GLuint vbo;
 	float brightness;
 public:
 
@@ -29,21 +29,19 @@ public:
 		float vd[] = {-1,-1,0,
 					  1,-1,0,
 					  0,1,0};
-		// create vao
-		vao = cs.createVertexArray();
-		// create vbo
-		vbo = cs.createBuffer();
-		// write data to vbo
-		vbo->bufferData(9*sizeof(float),vd,GL_STATIC_DRAW);
+		gles.GenVertexArrays(1,&vao);
+		gles.GenBuffers(1,&vbo);
+		gles.BindVertexArray(vao);
+		gles.BindBuffer(GL_ARRAY_BUFFER,vbo);
+		gles.BufferData(GL_ARRAY_BUFFER,9*sizeof(float),vd,GL_STATIC_DRAW);
 
 		// choose binding and attribute id ...
 		const GLuint attrib_id = 0;
 
 		// set the attributes format: how does one of this attributes look like
 		// insida a set of attributes.
-		vao->enableVertexAttribArray(attrib_id);
-		vao->vertexAttribPointer(vbo,
-								 attrib_id,
+		gles.EnableVertexAttribArray(attrib_id);
+		gles.VertexAttribPointer(attrib_id,
 								 3,
 								 GL_FLOAT,
 								 GL_FALSE,
@@ -53,22 +51,24 @@ public:
 		// create a shader using a util_ function ... making it easy to
 		// create a shader from a strings.
 
-		auto p = cs.createProgram();
-		auto vs = cs.util_create_shader(GL_VERTEX_SHADER,
+		auto p = gles.CreateProgamm();
+		auto vs = gles.util_CreateShader(GL_VERTEX_SHADER,
 										   "#version 100\n "
 										   "attribute vec3 pos; \n"
 										   "void main(){\n"
 										   "gl_Position = vec4(pos,1.0);\n}");
-		auto fs = cs.util_create_shader(GL_FRAGMENT_SHADER,
+		auto fs = gles.util_CreateShader(GL_FRAGMENT_SHADER,
 										   "#version 100\n "
 										   "void main(){\n"
 										   "gl_FragColor = vec4(1,0,0,1);\n}");
-		p->attachShader(vs);
-		p->attachShader(fs);
-		p->bindAttribLocation(0,"pos");
-		p->link();
+		gles.AttachShader(p,vs);
+		gles.AttachShader(p,fs);
+		gles.BindAttribLocation(p,0,"pos");
+
+		gles.LinkProgram(p);
+
 		// we wont use any other program so we can bind it and keep it that way!
-		cs.useProgram(p);
+		gles.UseProgram(p);
 
 	}
 
@@ -79,9 +79,9 @@ public:
 		{
 			i++;
 			if(i%60<30)
-				glClearColor(0,brightness,0,1);
+				gles.ClearColor(0,brightness,0,1);
 			else
-				glClearColor(0,0,brightness,1);
+				gles.ClearColor(0,0,brightness,1);
 
 			if(ins.is_key_down(hgles::K_UP) && brightness < 1.0f)
 				brightness+=0.01f;
@@ -102,9 +102,9 @@ public:
 				win.set_position(win.get_position()+glm::ivec2(10,0));
 
 
-			glClear(GL_COLOR_BUFFER_BIT);
-			cs.bindVertexArray(vao);
-			glDrawArrays(GL_TRIANGLES,0,3);
+			gles.Clear(GL_COLOR_BUFFER_BIT);
+			gles.BindVertexArray(vao);
+			gles.DrawArrays(GL_TRIANGLES,0,3);
 
 			// swap buffers
 			win.swap_buffers();
