@@ -389,10 +389,12 @@ namespace hgles
 							if(e.code == REL_X)
 							{
 								m_cursor_position[0] += e.value;
+								for(auto& l :m_mouse_listener)l->cursor_move(e.value,0);
 							}
 							else if(e.code == REL_Y)
 							{
 								m_cursor_position[1] += e.value;
+								for(auto& l :m_mouse_listener)l->cursor_move(0,e.value);
 							}
 							if(e.code == REL_WHEEL)
 							{
@@ -425,6 +427,7 @@ namespace hgles
 					}
 				}
 			for(auto& l :m_mouse_listener)l->cursor(m_cursor_position[0],m_cursor_position[1]);
+
 			for(auto& l :m_mouse_listener)l->scroll(m_wheel_position[0],m_wheel_position[1]);
 		}
 

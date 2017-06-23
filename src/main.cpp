@@ -51,7 +51,7 @@ public:
 		// create a shader using a util_ function ... making it easy to
 		// create a shader from a strings.
 
-		auto p = gles.CreateProgamm();
+		auto p = gles.CreateProgam();
 		auto vs = gles.util_CreateShader(GL_VERTEX_SHADER,
 										   "#version 100\n "
 										   "attribute vec3 pos; \n"

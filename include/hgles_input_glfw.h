@@ -12,6 +12,8 @@ namespace hgles
 	{
 		uint8_t m_key_state[K_LAST+1];
 		uint8_t m_button_state[BUTTON_LAST+1];
+		float m_cursor_x;
+		float m_cursor_y;
 		std::unordered_set<KeyboardListener*> m_keyboard_listener;
 		std::unordered_set<MouseListener*> m_mouse_listener;
 		std::unordered_set<CharacterListener*> m_char_listener;

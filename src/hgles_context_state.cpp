@@ -197,7 +197,11 @@ void ContextState::VertexAttribPointer(GLuint index, GLint size, GLenum type, GL
 {
 	auto it = glad_glGenVertexArraysOES?0:m_bound_vertex_array;
 	auto vab = VertexAttributeBinding(m_bound_buffer,index,size,type,normalized,stride,pointer);
-	if(m_vertex_arrays[it].binding[index] != vab )
+	if(!it)
+	{
+		glad_glVertexAttribPointer(index,size,type,normalized,stride,pointer);
+	}
+	else if(m_vertex_arrays[it].binding[index] != vab )
 	{
 		m_vertex_arrays[it].binding[index] = vab;
 		glad_glVertexAttribPointer(index,size,type,normalized,stride,pointer);
@@ -207,7 +211,9 @@ void ContextState::VertexAttribPointer(GLuint index, GLint size, GLenum type, GL
 void ContextState::EnableVertexAttribArray(const GLuint index)
 {
 	auto it = glad_glGenVertexArraysOES?0:m_bound_vertex_array;
-	if(!m_vertex_arrays[it].enable_vertex_array_attribute[index])
+	if(!it)
+		glad_glEnableVertexAttribArray(index);
+	else if(!m_vertex_arrays[it].enable_vertex_array_attribute[index])
 	{
 		m_vertex_arrays[it].enable_vertex_array_attribute[index] = true;
 		glad_glEnableVertexAttribArray(index);
@@ -259,7 +265,7 @@ void ContextState::BindAttribLocation(GLuint program, GLuint index, const GLchar
 	glad_glBindAttribLocation(program,index,name);
 }
 
-GLuint ContextState::CreateProgamm() const
+GLuint ContextState::CreateProgam() const
 {
 	return glad_glCreateProgram();
 }
@@ -355,7 +361,7 @@ GLuint ContextState::util_CreateProgram(const std::string &vs_code, const std::s
 			DeleteShader(fs);
 		return 0;
 	}
-	auto res = CreateProgamm();
+	auto res = CreateProgam();
 	AttachShader(res,vs);
 	AttachShader(res,fs);
 	LinkProgram(res);
@@ -393,7 +399,11 @@ void ContextState::BindVertexArray(const GLuint vao)
 void ContextState::VertexAttribPointer(const ContextState::VertexAttributeBinding &vab)
 {
 	auto it = glad_glGenVertexArraysOES?0:m_bound_vertex_array;
-	if(m_vertex_arrays[it].binding[vab.index] != vab )
+	if(!it)
+	{
+		glad_glVertexAttribPointer(vab.index,vab.size,vab.type,vab.normalized,vab.stride,vab.pointer);
+	}
+	else if(m_vertex_arrays[it].binding[vab.index] != vab )
 	{
 		m_vertex_arrays[it].binding[vab.index] = vab;
 		glad_glVertexAttribPointer(vab.index,vab.size,vab.type,vab.normalized,vab.stride,vab.pointer);
@@ -432,7 +442,7 @@ GLuint ContextState::util_LoadProgram(const std::string &vs_path, const std::str
 		return 0;
 	}
 
-	auto res = this->CreateProgamm();
+	auto res = this->CreateProgam();
 	if(!res)
 	{
 		DeleteShader(vs);

@@ -24,6 +24,7 @@ class MouseListener
 public:
 	virtual void button_down(const Button button);
 	virtual void button_up(const Button button);
+	virtual void cursor_move(const float dx, const float dy);
 	virtual void cursor(const float x, const float y);
 	virtual void scroll(const float x, const float y);
 };
@@ -56,7 +57,9 @@ inline void CharacterListener::char_input(const uint32_t ){}
 inline void MouseListener::button_down(const Button ){}
 inline void MouseListener::button_up(const Button){}
 inline void MouseListener::cursor(const float, const float){}
+inline void MouseListener::cursor_move(const float, const float){}
 inline void MouseListener::scroll(const float, const float){}
+
 
 #endif
 }

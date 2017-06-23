@@ -89,17 +89,23 @@ void InputSystem::m_glfw_cursor_cb(GLFWwindow *win, double x, double y)
 {
 	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
 	auto& is = ww->m_input_system;
+	float dx = static_cast<float>(x)-ww->m_input_system->m_cursor_x;
+	float dy = static_cast<float>(y)-ww->m_input_system->m_cursor_y;
 	for(auto& l : is->m_mouse_listener)
 	{
 		l->cursor(static_cast<float>(x),
 				  static_cast<float>(y));
+		l->cursor_move(dx,dy);
 	}
+	ww->m_input_system->m_cursor_x = static_cast<float>(x);
+	ww->m_input_system->m_cursor_y = static_cast<float>(y);
 }
 
 InputSystem::InputSystem()
 {
 	memset(m_key_state,0,K_LAST+1);
 	memset(m_button_state,0,BUTTON_LAST+1);
+	m_cursor_x = m_cursor_y = 0;
 }
 
 
@@ -112,6 +118,10 @@ void InputSystem::init(Window *w)
 	glfwSetMouseButtonCallback(w->m_glfw_win,m_glfw_mouse_button_cb);
 	glfwSetScrollCallback(w->m_glfw_win,m_glfw_scroll_cb);
 	glfwSetCursorPosCallback(w->m_glfw_win,m_glfw_cursor_cb);
+	double x,y;
+	glfwGetCursorPos(w->m_glfw_win,&x,&y);
+	m_cursor_x = static_cast<float>(x);
+	m_cursor_y = static_cast<float>(y);
 }
 
 

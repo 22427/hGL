@@ -193,7 +193,7 @@ public:
 	void CompileShader(const GLuint shader) const;
 	void BindAttribLocation(GLuint prgrm, GLuint index, const GLchar* name) const;
 
-	GLuint CreateProgamm() const;
+	GLuint CreateProgam() const;
 	void DeleteProgram(const GLuint prgrm) const;
 	void LinkProgram(GLuint prog) const;
 	void AttachShader(GLuint prgrm, GLuint shader) const;
