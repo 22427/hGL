@@ -2,7 +2,7 @@
 #include "dep/glm/vec2.hpp"
 
 #include <string>
-#include <functional>
+
 
 
 namespace hgles {
@@ -10,12 +10,10 @@ namespace hgles {
 class WindowListener
 {
 public:
+	virtual ~WindowListener();
 	virtual void size_changed(const int w, const int h);
 	virtual void position_changed(const int x, const int y);
 };
-
-inline void WindowListener::size_changed(const int /*w*/, const int /*h*/) {}
-inline void WindowListener::position_changed(const int /*x*/, const int /*y*/) {}
 
 #ifndef NDEBUG
 class InputSystem;
@@ -24,7 +22,7 @@ class  WindowInterface
 
 public:
 
-	virtual ~WindowInterface(){}
+	virtual ~WindowInterface();
 	virtual void make_current() =0;
 	virtual void unmake_current() =0;
 
@@ -54,10 +52,6 @@ public:
 	virtual void set_position(const glm::ivec2& pos) =0 ;
 	virtual glm::ivec2 get_position() const  =0 ;
 
-
-
 };
 #endif
-
-
 }

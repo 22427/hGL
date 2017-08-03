@@ -7,9 +7,9 @@
 #include <vector>
 namespace hgles
 {
-	class MGL_DLL_PUBLIC InputSystem :
+	class HGLES_DLL_PUBLIC InputSystem
 			#ifndef NDEBUG
-			public InputSystemInterface
+			: public InputSystemInterface
 			#endif
 	{
 		uint8_t m_key_state[K_LAST+1];

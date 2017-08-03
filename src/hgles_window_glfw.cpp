@@ -9,7 +9,10 @@ namespace hgles
 {
 unsigned int Window::m_glfw_initiated = 0;
 
-Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint32_t y)
+Window::Window(const uint32_t w,
+			   const uint32_t h,
+			   const uint32_t x,
+			   const uint32_t y)
 	:m_glfw_win(nullptr), m_win_pos(x,y), m_win_sze(w,h)
 {
 	m_input_system = nullptr;
@@ -146,7 +149,13 @@ void Window::toggle_fullscreen()
 	}
 	else // there is one and we want it to go away
 	{
-		glfwSetWindowMonitor(m_glfw_win,NULL,m_win_pos.x,m_win_pos.y,m_win_sze.x,m_win_sze.y,60);
+		glfwSetWindowMonitor(m_glfw_win,
+							 NULL,
+							 m_win_pos.x,
+							 m_win_pos.y,
+							 m_win_sze.x,
+							 m_win_sze.y,
+							 60);
 	}
 }
 

@@ -20,7 +20,9 @@ void InputSystem::m_glfw_char_cb(GLFWwindow *win, unsigned int character)
 	}
 }
 
-void InputSystem::m_glfw_key_cb(GLFWwindow *win, int key, int /*scancode*/, int action, int /*mods*/)
+void InputSystem::m_glfw_key_cb(GLFWwindow *win, int key,
+								int /*scancode*/,
+								int action, int /*mods*/)
 {
 	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
 	auto& is = ww->m_input_system;
@@ -51,7 +53,8 @@ void InputSystem::m_glfw_key_cb(GLFWwindow *win, int key, int /*scancode*/, int 
 
 }
 
-void InputSystem::m_glfw_mouse_button_cb(GLFWwindow *win, int button, int action, int /*mods*/)
+void InputSystem::m_glfw_mouse_button_cb(GLFWwindow *win, int button,
+										 int action, int /*mods*/)
 {
 	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
 	auto& is = ww->m_input_system;

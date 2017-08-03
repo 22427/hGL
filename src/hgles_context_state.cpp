@@ -6,7 +6,14 @@
 
 namespace hgles {
 
-ContextState::VertexAttributeBinding::VertexAttributeBinding(const GLuint buffer, const GLuint index, const GLint size, const GLenum type, const GLboolean normalized, const GLsizei stride, const GLvoid *pointer)
+ContextState::VertexAttributeBinding::VertexAttributeBinding(
+		const GLuint buffer,
+		const GLuint index,
+		const GLint size,
+		const GLenum type,
+		const GLboolean normalized,
+		const GLsizei stride,
+		const GLvoid *pointer)
 {
 	this->buffer = buffer;
 	this->index = index ;
@@ -17,7 +24,8 @@ ContextState::VertexAttributeBinding::VertexAttributeBinding(const GLuint buffer
 	this->pointer = pointer;
 }
 
-bool ContextState::VertexAttributeBinding::operator ==(const ContextState::VertexAttributeBinding &o) const
+bool ContextState::VertexAttributeBinding::operator ==(
+		const ContextState::VertexAttributeBinding &o) const
 {
 	if(buffer != o.buffer)
 		return false;
@@ -37,7 +45,10 @@ bool ContextState::VertexAttributeBinding::operator ==(const ContextState::Verte
 }
 
 
-void ContextState::ClearColor(const float r, const float g, const float b, const float a) const
+void ContextState::ClearColor(const float r,
+							  const float g,
+							  const float b,
+							  const float a) const
 {
 	glad_glClearColor(r,g,b,a);
 }
@@ -91,7 +102,8 @@ void ContextState::GenTextures(const GLsizei count, GLuint *textures) const
 	glad_glGenTextures(count,textures);
 }
 
-void ContextState::DeleteTextures(const GLsizei count, const GLuint *textures) const
+void ContextState::DeleteTextures(const GLsizei count,
+								  const GLuint *textures) const
 {
 	glad_glDeleteTextures(count,textures);
 }
@@ -101,33 +113,57 @@ void ContextState::GenerateMipmap(const GLenum target) const
 	glad_glGenerateMipmap(target);
 }
 
-void ContextState::TexParametr(const GLenum target, const GLenum param, const float val) const
+void ContextState::TexParametr(const GLenum target,
+							   const GLenum param,
+							   const float val) const
 {
 	glad_glTexParameterf(target,param,val);
 }
 
-void ContextState::TexParametr(const GLenum target, const GLenum param, const float *val) const
+void ContextState::TexParametr(const GLenum target,
+							   const GLenum param,
+							   const float *val) const
 {
 	glad_glTexParameterfv(target,param,val);
 }
 
-void ContextState::TexParametr(const GLenum target, const GLenum param, const int val) const
+void ContextState::TexParametr(const GLenum target,
+							   const GLenum param,
+							   const int val) const
 {
 	glad_glTexParameteri(target,param,val);
 }
 
-void ContextState::TexParametr(const GLenum target, const GLenum param, const int *val) const
+void ContextState::TexParametr(const GLenum target,
+							   const GLenum param,
+							   const int *val) const
 {
 	glad_glTexParameteriv(target,param,val);
 }
 
-void ContextState::TexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *data) const
+void ContextState::TexImage2D(GLenum target,
+							  GLint level,
+							  GLint internalformat,
+							  GLsizei width,
+							  GLsizei height,
+							  GLint border,
+							  GLenum format,
+							  GLenum type,
+							  const GLvoid *data) const
 {
 	glad_glTexImage2D(target,level,internalformat,
 					  width,height,border,format,type,data);
 }
 
-void ContextState::TexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) const
+void ContextState::TexSubImage2D(GLenum target,
+								 GLint level,
+								 GLint xoffset,
+								 GLint yoffset,
+								 GLsizei width,
+								 GLsizei height,
+								 GLenum format,
+								 GLenum type,
+								 const GLvoid *data) const
 {
 	glad_glTexSubImage2D(target,level,xoffset,yoffset,
 						 width,height,format,type,data);
@@ -157,12 +193,16 @@ void ContextState::BindBuffer(const GLenum target, const GLuint buffer)
 	}
 }
 
-void ContextState::DeleteBuffers(const GLsizei count, const GLuint *buffers) const
+void ContextState::DeleteBuffers(const GLsizei count,
+								 const GLuint *buffers) const
 {
 	glad_glDeleteBuffers(count, buffers);
 }
 
-void ContextState::BufferData(GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage) const
+void ContextState::BufferData(GLenum target,
+							  GLsizeiptr size,
+							  const GLvoid *data,
+							  GLenum usage) const
 {
 	glad_glBufferData(target,size,data,usage);
 }
@@ -193,10 +233,21 @@ void ContextState::DeleteVertexArrays(const GLsizei count, const GLuint *vaos)
 	}
 }
 
-void ContextState::VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer)
+void ContextState::VertexAttribPointer(GLuint index,
+									   GLint size,
+									   GLenum type,
+									   GLboolean normalized,
+									   GLsizei stride,
+									   const GLvoid *pointer)
 {
 	auto it = glad_glGenVertexArraysOES?0:m_bound_vertex_array;
-	auto vab = VertexAttributeBinding(m_bound_buffer,index,size,type,normalized,stride,pointer);
+	auto vab = VertexAttributeBinding(m_bound_buffer,
+									  index,
+									  size,
+									  type,
+									  normalized,
+									  stride,
+									  pointer);
 	if(!it)
 	{
 		glad_glVertexAttribPointer(index,size,type,normalized,stride,pointer);
@@ -230,12 +281,17 @@ void ContextState::DisableVertexAttribArray(const GLuint index)
 	}
 }
 
-void ContextState::DrawArrays(const GLenum mode, const GLint first, const GLsizei count) const
+void ContextState::DrawArrays(const GLenum mode,
+							  const GLint first,
+							  const GLsizei count) const
 {
 	glad_glDrawArrays(mode,first,count);
 }
 
-void ContextState::DrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) const
+void ContextState::DrawElements(GLenum mode,
+								GLsizei count,
+								GLenum type,
+								const GLvoid *indices) const
 {
 	glad_glDrawElements(mode,count,type,indices);
 }
@@ -250,7 +306,10 @@ void ContextState::DeleteShader(const GLuint shader) const
 	glad_glDeleteShader(shader);
 }
 
-void ContextState::ShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length)  const
+void ContextState::ShaderSource(GLuint shader,
+								GLsizei count,
+								const GLchar * const *string,
+								const GLint *length)  const
 {
 	glad_glShaderSource(shader,count,string,length);
 }
@@ -260,7 +319,9 @@ void ContextState::CompileShader(const GLuint shader)  const
 	glad_glCompileShader(shader);
 }
 
-void ContextState::BindAttribLocation(GLuint program, GLuint index, const GLchar *name)  const
+void ContextState::BindAttribLocation(GLuint program,
+									  GLuint index,
+									  const GLchar *name)  const
 {
 	glad_glBindAttribLocation(program,index,name);
 }
@@ -293,7 +354,8 @@ void ContextState::UseProgram(GLuint prgrm)
 	m_used_program = prgrm;
 }
 
-GLint ContextState::GetUniformLocation(const GLuint program, const char *uname) const
+GLint ContextState::GetUniformLocation(const GLuint program,
+									   const char *uname) const
 {
 	return glad_glGetUniformLocation(program,uname);
 }
@@ -308,37 +370,53 @@ void ContextState::Uniform(GLint location, const int v) const
 	glad_glUniform1i(location,v);
 }
 
-void ContextState::Uniform(GLint location, const glm::vec2 &v, const GLsizei cnt) const
+void ContextState::Uniform(GLint location,
+						   const glm::vec2 &v,
+						   const GLsizei cnt) const
 {
 	glad_glUniform2fv(location,cnt,glm::value_ptr(v));
 }
 
-void ContextState::Uniform(GLint location, const glm::vec3 &v, const GLsizei cnt) const
+void ContextState::Uniform(GLint location,
+						   const glm::vec3 &v,
+						   const GLsizei cnt) const
 {
 	glad_glUniform3fv(location,cnt,glm::value_ptr(v));
 }
 
-void ContextState::Uniform(GLint location, const glm::vec4 &v, const GLsizei cnt) const
+void ContextState::Uniform(GLint location,
+						   const glm::vec4 &v,
+						   const GLsizei cnt) const
 {
 	glad_glUniform4fv(location,cnt,glm::value_ptr(v));
 }
 
-void ContextState::Uniform(GLint location, const glm::mat2 &mat, const GLsizei cnt, const GLboolean transp) const
+void ContextState::Uniform(GLint location,
+						   const glm::mat2 &mat,
+						   const GLsizei cnt,
+						   const GLboolean transp) const
 {
 	glad_glUniformMatrix2fv(location,cnt,transp,glm::value_ptr(mat));
 }
 
-void ContextState::Uniform(GLint location, const glm::mat3 &mat, const GLsizei cnt, const GLboolean transp) const
+void ContextState::Uniform(GLint location,
+						   const glm::mat3 &mat,
+						   const GLsizei cnt,
+						   const GLboolean transp) const
 {
 	glad_glUniformMatrix3fv(location,cnt,transp,glm::value_ptr(mat));
 }
 
-void ContextState::Uniform(GLint location, const glm::mat4 &mat, const GLsizei cnt, const GLboolean transp) const
+void ContextState::Uniform(GLint location,
+						   const glm::mat4 &mat,
+						   const GLsizei cnt,
+						   const GLboolean transp) const
 {
 	glad_glUniformMatrix4fv(location,cnt,transp,glm::value_ptr(mat));
 }
 
-GLuint ContextState::util_CreateShader(GLenum shader_type, const std::string &code) const
+GLuint ContextState::util_CreateShader(GLenum shader_type,
+									   const std::string &code) const
 {
 	auto res = CreateShader(shader_type);
 	const GLchar* c = code.c_str();
@@ -348,7 +426,8 @@ GLuint ContextState::util_CreateShader(GLenum shader_type, const std::string &co
 	return res;
 }
 
-GLuint ContextState::util_CreateProgram(const std::string &vs_code, const std::string &fs_code) const
+GLuint ContextState::util_CreateProgram(const std::string &vs_code,
+										const std::string &fs_code) const
 {
 	auto vs = util_CreateShader(GL_VERTEX_SHADER,vs_code);
 	auto fs = util_CreateShader(GL_FRAGMENT_SHADER,fs_code);
@@ -396,17 +475,28 @@ void ContextState::BindVertexArray(const GLuint vao)
 	m_bound_vertex_array = vao;
 }
 
-void ContextState::VertexAttribPointer(const ContextState::VertexAttributeBinding &vab)
+void ContextState::VertexAttribPointer(
+		const ContextState::VertexAttributeBinding &vab)
 {
 	auto it = glad_glGenVertexArraysOES?0:m_bound_vertex_array;
 	if(!it)
 	{
-		glad_glVertexAttribPointer(vab.index,vab.size,vab.type,vab.normalized,vab.stride,vab.pointer);
+		glad_glVertexAttribPointer(vab.index,
+								   vab.size,
+								   vab.type,
+								   vab.normalized,
+								   vab.stride,
+								   vab.pointer);
 	}
 	else if(m_vertex_arrays[it].binding[vab.index] != vab )
 	{
 		m_vertex_arrays[it].binding[vab.index] = vab;
-		glad_glVertexAttribPointer(vab.index,vab.size,vab.type,vab.normalized,vab.stride,vab.pointer);
+		glad_glVertexAttribPointer(vab.index,
+								   vab.size,
+								   vab.type,
+								   vab.normalized,
+								   vab.stride,
+								   vab.pointer);
 	}
 }
 
@@ -414,7 +504,8 @@ void ContextState::VertexAttribPointer(const ContextState::VertexAttributeBindin
 
 
 
-GLuint ContextState::util_LoadShader(GLenum shader_type, const std::string &path) const
+GLuint ContextState::util_LoadShader(GLenum shader_type,
+									 const std::string &path) const
 {
 	std::ifstream t(path);
 	if(!t.is_open())
@@ -427,7 +518,8 @@ GLuint ContextState::util_LoadShader(GLenum shader_type, const std::string &path
 	return util_CreateShader(shader_type,code);
 }
 
-GLuint ContextState::util_LoadProgram(const std::string &vs_path, const std::string &fs_path) const
+GLuint ContextState::util_LoadProgram(const std::string &vs_path,
+									  const std::string &fs_path) const
 {
 	auto vs = util_LoadShader(GL_VERTEX_SHADER,vs_path);
 	auto fs = util_LoadShader(GL_FRAGMENT_SHADER,fs_path);
@@ -476,20 +568,20 @@ std::string ContextState::util_error_string(const GLenum error) const
 #undef TO_STR
 }
 
-bool ContextState::util_error_check(const std::string &tect) const
+bool ContextState::util_error_check(const std::string &text) const
 {
 #ifndef NDEBUG
-	GLenum error_code;
-	error_code = glGetError();
-	if (error_code != GL_NO_ERROR)
+	GLenum err_cde;
+	err_cde = glGetError();
+	if (err_cde != GL_NO_ERROR)
 	{
-		ERROR("[glERR] %s:%s",tect.c_str(),util_error_string(error_code).c_str());
+		ERROR("[glERR] %s:%s",text.c_str(),util_error_string(err_cde).c_str());
 		return true;
 	}
 	return false;
 #else
 	retrun false
-		#endif
+#endif
 }
 
 

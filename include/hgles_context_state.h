@@ -19,17 +19,17 @@
 namespace hgles
 {
 
-class MGL_DLL_PUBLIC ContextState
+class HGLES_DLL_PUBLIC ContextState
 {
 protected:
-	struct MGL_DLL_PUBLIC TextureUnitState
+	struct HGLES_DLL_PUBLIC TextureUnitState
 	{
 		GLuint tex_2D;
 		GLuint tex_cube;
 		TextureUnitState() : tex_2D(0),tex_cube(0){}
 	};
 
-	struct MGL_DLL_PUBLIC VertexAttributeBinding
+	struct HGLES_DLL_PUBLIC VertexAttributeBinding
 	{
 		GLuint buffer;
 		GLuint index;
@@ -55,7 +55,7 @@ protected:
 		}
 	};
 
-	struct MGL_DLL_PUBLIC VertexArrayState
+	struct HGLES_DLL_PUBLIC VertexArrayState
 	{
 		GLuint element_array;
 		bool enable_vertex_array_attribute[8];
@@ -191,7 +191,9 @@ public:
 					  const GLint *length) const;
 
 	void CompileShader(const GLuint shader) const;
-	void BindAttribLocation(GLuint prgrm, GLuint index, const GLchar* name) const;
+	void BindAttribLocation(GLuint prgrm,
+							GLuint index,
+							const GLchar* name) const;
 
 	GLuint CreateProgam() const;
 	void DeleteProgram(const GLuint prgrm) const;
@@ -227,6 +229,6 @@ public:
 	GLuint util_LoadProgram(const std::string& vs_path,
 							const std::string& fs_path) const;
 	std::string util_error_string(const GLenum error) const;
-	bool util_error_check(const std::string &tect) const;
+	bool util_error_check(const std::string &text) const;
 };
 }

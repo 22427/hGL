@@ -53,8 +53,8 @@ namespace idev
 			//B: <first>=<second>
 			std::unordered_map<String,String> B;
 
-			// parse the s**t out of it. Not the most reliable parser, not even close,
-			// but it works for now!
+			// parse the s**t out of it. Not the most reliable parser,
+			// not even close, but it works for now!
 			// returns true if there is more to read!
 			bool read(std::ifstream& f);
 
@@ -318,7 +318,8 @@ namespace hgles
 		if(!m_keyboard_listener.empty())
 		{
 			// check for keyboard input:
-			auto pres =poll(m_observed_keyboards.data(),m_observed_keyboards.size(),0);
+			auto pres =poll(m_observed_keyboards.data(),
+							m_observed_keyboards.size(),0);
 
 			if(pres < 0)
 			{
@@ -389,12 +390,14 @@ namespace hgles
 							if(e.code == REL_X)
 							{
 								m_cursor_position[0] += e.value;
-								for(auto& l :m_mouse_listener)l->cursor_move(e.value,0);
+								for(auto& l :m_mouse_listener)
+									l->cursor_move(e.value,0);
 							}
 							else if(e.code == REL_Y)
 							{
 								m_cursor_position[1] += e.value;
-								for(auto& l :m_mouse_listener)l->cursor_move(0,e.value);
+								for(auto& l :m_mouse_listener)
+									l->cursor_move(0,e.value);
 							}
 							if(e.code == REL_WHEEL)
 							{
@@ -426,9 +429,11 @@ namespace hgles
 
 					}
 				}
-			for(auto& l :m_mouse_listener)l->cursor(m_cursor_position[0],m_cursor_position[1]);
+			for(auto& l :m_mouse_listener)
+				l->cursor(m_cursor_position[0],m_cursor_position[1]);
 
-			for(auto& l :m_mouse_listener)l->scroll(m_wheel_position[0],m_wheel_position[1]);
+			for(auto& l :m_mouse_listener)
+				l->scroll(m_wheel_position[0],m_wheel_position[1]);
 		}
 
 		if(!m_char_listener.empty())

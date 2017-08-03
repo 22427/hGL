@@ -7,6 +7,7 @@ namespace hgles {
 class KeyboardListener
 {
 public:
+	virtual ~KeyboardListener();
 	virtual void key_down(const Key k);
 	virtual void key_up(const Key k);
 	virtual void key_repeat(const Key k);
@@ -15,6 +16,7 @@ public:
 class CharacterListener
 {
 public:
+	virtual ~CharacterListener();
 	virtual void char_input(const uint32_t c);
 };
 
@@ -22,6 +24,7 @@ public:
 class MouseListener
 {
 public:
+	virtual ~MouseListener();
 	virtual void button_down(const Button button);
 	virtual void button_up(const Button button);
 	virtual void cursor_move(const float dx, const float dy);
@@ -34,6 +37,7 @@ class Window;
 class InputSystemInterface
 {
 public:
+	virtual ~InputSystemInterface();
 	virtual void init(Window* w) = 0;
 	virtual void poll_events() = 0;
 
@@ -48,18 +52,5 @@ public:
 	virtual bool is_key_down(const Key k)=0;
 	virtual bool is_button_down(const Button b)=0;
 };
-
-// Dummies!!
-inline void KeyboardListener::key_down(const Key){}
-inline void KeyboardListener::key_up(const Key ){}
-inline void KeyboardListener::key_repeat(const Key ){}
-inline void CharacterListener::char_input(const uint32_t ){}
-inline void MouseListener::button_down(const Button ){}
-inline void MouseListener::button_up(const Button){}
-inline void MouseListener::cursor(const float, const float){}
-inline void MouseListener::cursor_move(const float, const float){}
-inline void MouseListener::scroll(const float, const float){}
-
-
 #endif
 }

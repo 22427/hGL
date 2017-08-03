@@ -101,7 +101,9 @@ namespace hgles
 				EGLContext context;
 				EGLSurface surface;
 				EGLConfig config;
-				EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+				EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION,
+											2,
+											EGL_NONE };
 
 
 				// Get Display
@@ -128,7 +130,11 @@ namespace hgles
 				}
 
 				// Choose config
-				if ( !eglChooseConfig(display, attribList, &config, 1, &numConfigs) )
+				if ( !eglChooseConfig(display,
+									  attribList,
+									  &config,
+									  1,
+									  &numConfigs) )
 				{
 					ERROR("EGL: choose config failed!");
 					return false;
@@ -147,7 +153,10 @@ namespace hgles
 				}
 
 				// Create a GL context
-				context = eglCreateContext(display, config, shared, contextAttribs );
+				context = eglCreateContext(display,
+										   config,
+										   shared,
+										   contextAttribs );
 				if ( context == EGL_NO_CONTEXT )
 				{
 					ERROR("EGL: context creation failed!");
@@ -223,7 +232,10 @@ namespace hgles
 
 
 
-	Window::Window(const uint32_t w, const uint32_t h, const uint32_t x, const uint32_t y)
+	Window::Window(const uint32_t w,
+				   const uint32_t h,
+				   const uint32_t x,
+				   const uint32_t y)
 	{
 		m_pos = m_win_pos = glm::ivec2(x,y);
 		m_sze = m_win_sze = glm::ivec2(w,h);
@@ -273,13 +285,65 @@ namespace hgles
 	}
 
 
+
+
+
+
+
+
+
+
+
+Window::~Window(){}
+
+void Window::make_current()
+{
+	if(!eglMakeCurrent(m_display, m_surface, m_surface, m_context))
+		ERROR("eglMakeCurrent failed!");
 }
 
+void Window::unmake_current()
+{
+	if(!eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+		ERROR("eglMakeCurrent failed!");
+}
 
+void Window::swap_buffers()
+{
+	eglSwapBuffers(m_display,m_surface);
+}
 
+void Window::poll_events(){}
 
+void Window::set_title(const std::string &){}
+
+void Window::toggle_fullscreen(){/*TODO*/}
+
+void Window::set_fullscreen(bool){/*TODO*/}
+
+void Window::toggle_decoration(){}
+
+void Window::set_decoration(bool){}
+
+bool Window::should_close(){return m_should_close;}
+
+void Window::set_should_close(bool s_c){m_should_close =s_c;}
+
+void Window::add_window_listener(WindowListener *){/*TODO*/}
+
+void Window::remove_window_listener(WindowListener *){/*TODO*/}
+
+void Window::set_size(const int w, const int h){}
+
+void Window::set_size(const glm::ivec2 &sze){}
+
+glm::ivec2 Window::get_size() const{return m_sze;}
+
+void Window::set_position(const int x, const int y){}
+
+void Window::set_position(const glm::ivec2 &pos){}
+
+glm::ivec2 Window::get_position() const {return m_pos;}
+}
 
 #endif
-
-
-

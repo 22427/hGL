@@ -5,7 +5,7 @@
 #include <unordered_set>
 namespace hgles
 {
-	class MGL_DLL_PUBLIC InputSystem :
+	class HGLES_DLL_PUBLIC InputSystem :
 			#ifndef NDEBUG
 			public InputSystemInterface
 			#endif
@@ -19,8 +19,13 @@ namespace hgles
 		std::unordered_set<CharacterListener*> m_char_listener;
 
 		static void m_glfw_char_cb(GLFWwindow* win ,unsigned int character);
-		static void m_glfw_key_cb(GLFWwindow* win,int key,int scancode ,int action,int mods);
-		static void m_glfw_mouse_button_cb(GLFWwindow* win ,int button ,int action,int mods);
+		static void m_glfw_key_cb(GLFWwindow* win,
+								  int key,int scancode,
+								  int action,int mods);
+		static void m_glfw_mouse_button_cb(GLFWwindow* win ,
+										   int button,
+										   int action,
+										   int mods);
 		static void m_glfw_scroll_cb(GLFWwindow* win ,double x,double y);
 		static void m_glfw_cursor_cb(GLFWwindow* win ,double x,double y);
 

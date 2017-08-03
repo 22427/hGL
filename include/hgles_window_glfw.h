@@ -1,20 +1,21 @@
 #pragma once
-#include "hgles_window_interface.h"
-#include "hgles_input_glfw.h"
 #include <functional>
-#include "hgles_dll.h"
-
-#include <glad/glad.h>
-#define GLFW_INCLUDE_ES2
-#include <GLFW/glfw3.h>
-
-#include <glm/vec2.hpp>
 #include <vector>
 #include <unordered_set>
+
+#include "hgles_window_interface.h"
+#include "hgles_input_glfw.h"
+#include "hgles_dll.h"
+
+#include "dep/glad/glad.h"
+#define GLFW_INCLUDE_ES2
+#include "dep/GLFW/glfw3.h"
+#include "dep/glm/vec2.hpp"
+
 namespace hgles
 {
 
-class MGL_DLL_PUBLIC Window
+class HGLES_DLL_PUBLIC Window
 		#ifndef NDEBUG
 		: public WindowInterface
 		#endif
@@ -37,7 +38,10 @@ protected:
 
 public:
 	friend class InputSystem;
-	Window(const uint32_t w, const uint32_t h, const uint32_t x=0, const uint32_t y=0);
+	Window(const uint32_t w,
+		   const uint32_t h,
+		   const uint32_t x=0,
+		   const uint32_t y=0);
 	~Window();
 	void make_current();
 	void unmake_current();

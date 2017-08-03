@@ -3,7 +3,9 @@
 #include "hgles_window.h"
 #include "hgles_input.h"
 
-class OpenGLApplication : public hgles::WindowListener, public hgles::KeyboardListener
+class OpenGLApplication :
+		public hgles::WindowListener,
+		public hgles::KeyboardListener
 {
 	hgles::Window win;
 	hgles::InputSystem ins;
