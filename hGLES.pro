@@ -54,7 +54,11 @@ QMAKE_CXXFLAGS += -Wno-variadic-macros -std=c++11
 }
 else{
 DEFINES += HGLES_USE_GLFW
-LIBS += -L./dep/lib -lglfw -ldl -lm -lpthread -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor 
+CONFIG( staticlib, staticlib| dll) {
+LIBS+= -L./lib -lglfw3 -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor -ldl -lm -lpthread
+}else{
+LIBS += -L./lib -lglfw -ldl -lm -lpthread
+}
 }
 
 
