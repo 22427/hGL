@@ -1,4 +1,4 @@
-#ifdef HGLES_USE_PI
+#ifdef USE_PI
 
 #ifdef _WIN32
 #include <windows.h>

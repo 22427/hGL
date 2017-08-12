@@ -1,4 +1,4 @@
-#ifdef HGLES_USE_GLFW
+#ifndef USE_PI
 #include <cstring>
 
 #include "../include/hgles_window_glfw.h"
@@ -175,7 +175,6 @@ void Window::set_decoration(bool dec)
 void Window::m_glfw_window_size_fun(GLFWwindow *win, int w, int h)
 {
 	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
-	ww->m_win_sze = glm::ivec2(w,h);
 	for(auto& l : ww->m_window_listeners)
 	{
 		l->size_changed(w,h);
@@ -185,7 +184,6 @@ void Window::m_glfw_window_size_fun(GLFWwindow *win, int w, int h)
 void Window::m_glfw_window_pos_fun(GLFWwindow *win, int x, int y)
 {
 	Window* ww = reinterpret_cast<Window*>(glfwGetWindowUserPointer((win)));
-	ww->m_win_pos = glm::ivec2(x,y);
 	for(auto& l : ww->m_window_listeners)
 	{
 		l->position_changed(x,y);

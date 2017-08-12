@@ -1,4 +1,4 @@
-#ifdef HGLES_USE_GLFW
+#ifndef USE_PI
 #include <cstring>
 
 #include "../include/hgles_input_glfw.h"
