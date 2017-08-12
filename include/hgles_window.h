@@ -1,7 +1,7 @@
 #pragma once
 
-#ifdef HGLES_USE_GLFW
+#ifndef USE_PI
 #include "hgles_window_glfw.h"
-#elif defined(HGLES_USE_PI)
+#else
 #include "hgles_window_pi.h"
 #endif

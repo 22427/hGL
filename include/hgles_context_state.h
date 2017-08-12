@@ -5,7 +5,7 @@
 
 #include <cstring>
 #include <unordered_set>
-
+#include <vector>
 #include "dep/glm/vec2.hpp"
 #include "dep/glm/vec3.hpp"
 #include "dep/glm/vec4.hpp"
@@ -16,6 +16,7 @@
 
 #include "hgles_window.h"
 #include "hgles_log.h"
+#include "hgles_dll.h"
 namespace hgles
 {
 

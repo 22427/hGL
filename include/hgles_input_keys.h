@@ -1,6 +1,6 @@
 #pragma once
-#ifdef HGLES_USE_GLFW
+#ifndef USE_PI
 #include "hgles_input_keys_glfw.h"
-#elif defined(HGLES_USE_PI)
+#else
 #include "hgles_input_keys_pi.h"
 #endif
