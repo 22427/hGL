@@ -58,6 +58,8 @@ CONFIG( staticlib, staticlib| dll) {
 LIBS+= -L./lib -lglfw3 -lX11 -lGL -lXrandr -lXi -lXinerama -lXcursor -ldl -lm -lpthread
 }else{
 LIBS += -L./lib -lglfw -ldl -lm -lpthread
+QMAKE_RPATHDIR += \$\$ORIGIN
+QMAKE_LFLAGS += '-Wl,-rpath,\'\$$ORIGIN\''
 }
 }
 
