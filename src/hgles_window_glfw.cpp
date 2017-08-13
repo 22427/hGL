@@ -1,6 +1,6 @@
 #ifndef USE_PI
 #include <cstring>
-
+#include <iostream>
 #include "../include/hgles_window_glfw.h"
 #include "../include/dep/glad/glad.h"
 #include "../include/dep/GLFW/glfw3.h"
@@ -15,12 +15,16 @@ Window::Window(const uint32_t w,
 			   const uint32_t y)
 	:m_glfw_win(nullptr), m_win_pos(x,y), m_win_sze(w,h)
 {
+	m_log = [](const std::string& str){std::cout<<"[ L ] "<<str<<"\n";};
+	m_warning = [](const std::string& str){std::cout<<"[ W ] "<<str<<"\n";};
+	m_error= [](const std::string& str){std::cerr<<"[ E ] "<<str<<"\n";};
 	m_input_system = nullptr;
 	if(!m_glfw_initiated)
 	{
 		if (!glfwInit())
 		{
-			CRIT_ERROR("Failed to init GLFW");
+			m_error("Failed to init GLFW");
+			exit(0);
 		}
 	}
 
@@ -34,7 +38,10 @@ Window::Window(const uint32_t w,
 								  nullptr,
 								  nullptr);
 	if(!m_glfw_win)
-		CRIT_ERROR("Failed to create glfwWindow");
+	{
+		m_error("Failed to create glfwWindow");
+		exit(0);
+	}
 
 	glfwMakeContextCurrent(m_glfw_win);
 	glfwSetWindowPos(m_glfw_win,static_cast<int>(x),static_cast<int>(y));
@@ -44,7 +51,8 @@ Window::Window(const uint32_t w,
 		if(!gladLoadGLES2Loader(
 					reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
 		{
-			CRIT_ERROR("Failed to load GL using GLAD!");
+			m_error("Failed to load GL using GLAD!");
+			exit(0);
 		}
 
 		m_glfw_initiated++;;

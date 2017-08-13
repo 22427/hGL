@@ -2,7 +2,7 @@
 #include "dep/glm/vec2.hpp"
 
 #include <string>
-
+#include <functional>
 
 
 namespace hgles {
@@ -19,6 +19,8 @@ public:
 class InputSystem;
 class  WindowInterface
 {
+protected:
+
 
 public:
 
@@ -51,6 +53,11 @@ public:
 	virtual void set_position(const int x, const int y) =0 ;
 	virtual void set_position(const glm::ivec2& pos) =0 ;
 	virtual glm::ivec2 get_position() const  =0 ;
+
+	virtual void set_log_cb(std::function<void (const std::string&)>& cb)=0;
+	virtual void set_warning_cb(std::function<void (const std::string&)>& cb)=0;
+	virtual void set_error_cb(std::function<void (const std::string&)>& cb)=0;
+
 
 };
 #endif

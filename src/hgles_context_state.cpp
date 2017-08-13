@@ -419,10 +419,18 @@ GLuint ContextState::util_CreateShader(GLenum shader_type,
 									   const std::string &code) const
 {
 	auto res = CreateShader(shader_type);
+	if(!res)
+		return res;
 	const GLchar* c = code.c_str();
 	ShaderSource(res,1,&c,nullptr);
 	CompileShader(res);
-	// todo check for errors
+	const auto log = util_get_shader_log(res);
+	if(!log.empty())
+	{
+		m_error("Compiling shader failed:\n\t"+log);
+		DeleteShader(res);
+		res = 0;
+	}
 	return res;
 }
 
@@ -433,18 +441,22 @@ GLuint ContextState::util_CreateProgram(const std::string &vs_code,
 	auto fs = util_CreateShader(GL_FRAGMENT_SHADER,fs_code);
 	if(!vs || ! fs)
 	{
-		// todo error!!!
-		if(!vs)
-			DeleteShader(vs);
-		if(!fs)
-			DeleteShader(fs);
 		return 0;
 	}
 	auto res = CreateProgam();
-	AttachShader(res,vs);
-	AttachShader(res,fs);
-	LinkProgram(res);
-	// todo check for errors
+	if(res)
+	{
+		AttachShader(res,vs);
+		AttachShader(res,fs);
+		LinkProgram(res);
+		const auto log = util_get_program_log(res);
+		if(!log.empty())
+		{
+			m_error("Linking program failed:\n\t"+log);
+			DeleteProgram(res);
+			res = 0;
+		}
+	}
 	DeleteShader(vs);
 	DeleteShader(fs);
 	return res;
@@ -510,7 +522,7 @@ GLuint ContextState::util_LoadShader(GLenum shader_type,
 	std::ifstream t(path);
 	if(!t.is_open())
 	{
-		WARNING("Could not open shader file %s",path.c_str());
+		m_warning("Could not open shader file "+path);
 	}
 	std::string code((std::istreambuf_iterator<char>(t)),
 					 std::istreambuf_iterator<char>());
@@ -526,7 +538,6 @@ GLuint ContextState::util_LoadProgram(const std::string &vs_path,
 
 	if(!vs || ! fs)
 	{
-		// todo error!!!
 		if(!vs)
 			DeleteShader(vs);
 		if(!fs)
@@ -539,7 +550,7 @@ GLuint ContextState::util_LoadProgram(const std::string &vs_path,
 	{
 		DeleteShader(vs);
 		DeleteShader(fs);
-		ERROR("Failed to create programm!");
+		m_error("Failed to create programm!");
 		return  0;
 	}
 	AttachShader(res,vs);
@@ -575,13 +586,48 @@ bool ContextState::util_error_check(const std::string &text) const
 	err_cde = glGetError();
 	if (err_cde != GL_NO_ERROR)
 	{
-		ERROR("[glERR] %s:%s",text.c_str(),util_error_string(err_cde).c_str());
+		m_error("GLES Error:"+text+" "+util_error_string(err_cde));
 		return true;
 	}
 	return false;
 #else
 	retrun false
-#endif
+		#endif
+}
+
+std::string ContextState::util_get_shader_log(GLuint shader) const
+{
+	GLint is_compiled = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &is_compiled);
+	if(is_compiled == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+		std::string errorLog;
+		errorLog.resize(static_cast<uint32_t>(maxLength),0);
+		glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
+
+		return errorLog;
+	}
+	return  "";
+}
+
+std::string ContextState::util_get_program_log(GLuint programm) const
+{
+	GLint is_linked = 0;
+	glGetProgramiv(programm, GL_LINK_STATUS, &is_linked);
+	if(is_linked == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetProgramiv(programm, GL_INFO_LOG_LENGTH, &maxLength);
+
+		std::string errorLog;
+		errorLog.resize(static_cast<uint32_t>(maxLength),0);
+		glGetProgramInfoLog(programm, maxLength, &maxLength, &errorLog[0]);
+
+		return errorLog;
+	}
+	return  "";
 }
 
 

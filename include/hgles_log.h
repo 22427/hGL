@@ -1,5 +1,5 @@
 #pragma once
-
+#if 0
 #ifndef LOG
 #define LOG(...) do{\
 	fprintf(stderr,"[ LOG ] ");\
@@ -32,4 +32,7 @@
 	fprintf(stderr,"\n");\
 	exit(0);\
 	}while(0)
+#endif
+
+
 #endif

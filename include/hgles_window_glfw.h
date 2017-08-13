@@ -25,6 +25,9 @@ protected:
 	glm::ivec2 m_win_pos;
 	glm::ivec2 m_win_sze;
 
+	std::function<void (const std::string&)> m_log;
+	std::function<void (const std::string&)> m_error;
+	std::function<void (const std::string&)> m_warning;
 
 	static unsigned int m_glfw_initiated;
 
@@ -68,6 +71,13 @@ public:
 	void set_position(const int x, const int y);
 	void set_position(const glm::ivec2& pos);
 	glm::ivec2 get_position() const;
+
+	void set_log_cb(std::function<void (const std::string&)>& cb)
+	{m_log = cb;}
+	void set_warning_cb(std::function<void (const std::string&)>& cb)
+	{m_warning = cb;}
+	void set_error_cb(std::function<void (const std::string&)>& cb)
+	{m_error = cb;}
 };
 
 }

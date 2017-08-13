@@ -6,6 +6,7 @@
 #include <cstring>
 #include <unordered_set>
 #include <vector>
+#include <iostream>
 #include "dep/glm/vec2.hpp"
 #include "dep/glm/vec3.hpp"
 #include "dep/glm/vec4.hpp"
@@ -99,6 +100,11 @@ protected:
 		m_vertex_arrays.push_back(VertexArrayState());
 		return static_cast<GLuint>(m_vertex_arrays.size())-1;
 	}
+
+	std::function<void (const std::string&)> m_log;
+	std::function<void (const std::string&)> m_error;
+	std::function<void (const std::string&)> m_warning;
+
 public:
 
 	ContextState()
@@ -108,6 +114,9 @@ public:
 		m_used_program = 0;
 		m_active_texture_unit = 0;
 		m_bound_vertex_array = 0;
+		m_log = [](const std::string& str){std::cout<<"[ L ] "<<str<<"\n";};
+		m_warning = [](const std::string& str){std::cout<<"[ W ] "<<str<<"\n";};
+		m_error= [](const std::string& str){std::cerr<<"[ E ] "<<str<<"\n";};
 	}
 	// Context Operations ######################################################
 	void ClearColor(const float r,
@@ -231,5 +240,8 @@ public:
 							const std::string& fs_path) const;
 	std::string util_error_string(const GLenum error) const;
 	bool util_error_check(const std::string &text) const;
+
+	std::string util_get_shader_log(GLuint shader) const;
+	std::string util_get_program_log(GLuint programm) const;
 };
 }
