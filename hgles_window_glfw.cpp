@@ -3,8 +3,9 @@
 #include <iostream>
 #include "hgles_window_glfw.h"
 #include "hgles_log.h"
-#include "glad.h"
-#include "glfw/include/GLFW/glfw3.h"
+#include "hgles_glad.h"
+#define GLFW_INCLUDE_ES2
+#include <GLFW/glfw3.h>
 
 namespace hgles
 {

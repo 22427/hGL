@@ -2,7 +2,7 @@
 
 #include "hgles_glad.h"
 #define GLFW_INCLUDE_ES2
-#include "glfw/include/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 namespace hgles
 {
 enum Button

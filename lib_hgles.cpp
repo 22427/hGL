@@ -4,4 +4,4 @@
 #include "hgles_input_pi.cpp"
 #include "hgles_window_glfw.cpp"
 #include "hgles_window_interface.cpp"
-#include "hgles_glad.cpp"
+#include "hgles_glad.c"

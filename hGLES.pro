@@ -15,10 +15,9 @@ OBJECTS_DIR = obj
 CONFIG(release, debug|release): DEFINES += NDEBUG
 
 INCLUDEPATH += include/dep\
-               dep/glm\
-                include
+               glm\
+               include
 SOURCES += \
-    hgles_glad.cpp \
     hgles_context_state.cpp \
     hgles_window_glfw.cpp \
     hgles_input_glfw.cpp \
@@ -26,7 +25,7 @@ SOURCES += \
     hgles_input_pi.cpp \
     hgles_input_interface.cpp \
     hgles_window_interface.cpp \
-    hgles_glad.cpp
+    hgles_glad.c
 
 HEADERS += \
     hgles_context_state.h \

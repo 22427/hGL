@@ -1,6 +1,6 @@
-[submodule "dep/glm"]
-	path = dep/glm
+[submodule "glm"]
+	path = glm
 	url = https://github.com/g-truc/glm.git
-[submodule "dep/glfw"]
-	path = dep/glfw
+[submodule "glfw"]
+	path = glfw
 	url = https://github.com/glfw/glfw.git
