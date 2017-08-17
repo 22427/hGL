@@ -1,19 +1,19 @@
 #pragma once
 
-#include "dep/glad/glad.h"
+#include "hgles_glad.h"
 #include <functional>
 
 #include <cstring>
 #include <unordered_set>
 #include <vector>
 #include <iostream>
-#include "dep/glm/vec2.hpp"
-#include "dep/glm/vec3.hpp"
-#include "dep/glm/vec4.hpp"
-#include "dep/glm/mat2x2.hpp"
-#include "dep/glm/mat3x3.hpp"
-#include "dep/glm/mat4x4.hpp"
-#include "dep/glm/gtc/type_ptr.hpp"
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat2x2.hpp>
+#include <glm/mat3x3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "hgles_window.h"
 #include "hgles_log.h"
@@ -126,6 +126,8 @@ public:
 	void Clear(GLbitfield mask) const;
 	void Enable(GLenum cap) const;
 	void Disable(GLenum cap) const;
+
+	void Viewport(GLint x, GLint y, GLsizei width, GLsizei height);
 
 	// Textures ################################################################
 

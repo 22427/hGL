@@ -15,33 +15,35 @@ OBJECTS_DIR = obj
 CONFIG(release, debug|release): DEFINES += NDEBUG
 
 INCLUDEPATH += include/dep\
-               include
+               dep/glm\
+                include
 SOURCES += \
-    src/main.cpp \
-    dep/glad/src/glad.c \
-	src/hgles_context_state.cpp \
-    src/hgles_window_glfw.cpp \
-    src/hgles_input_glfw.cpp \
-    src/hgles_window_pi.cpp \
-    src/hgles_input_pi.cpp \
-    src/hgles_input_interface.cpp \
-    src/hgles_window_interface.cpp
+    hgles_glad.cpp \
+    hgles_context_state.cpp \
+    hgles_window_glfw.cpp \
+    hgles_input_glfw.cpp \
+    hgles_window_pi.cpp \
+    hgles_input_pi.cpp \
+    hgles_input_interface.cpp \
+    hgles_window_interface.cpp \
+    hgles_glad.cpp
 
 HEADERS += \
-    include/hgles_context_state.h \
-    include/hgles_dll.h \
-    include/hgles_log.h \
-    include/hgles_window.h \
-    include/hgles_window_glfw.h \
-    include/hgles_input_keys.h \
-    include/hgles_input_keys_glfw.h \
-    include/hgles_input_keys_pi.h \
-    include/hgles_input_glfw.h \
-    include/hgles_input_pi.h \
-    include/hgles_window_interface.h \
-    include/hgles_input_interface.h \
-    include/hgles_input.h \
-    include/hgles_window_pi.h
+    hgles_context_state.h \
+    hgles_dll.h \
+    hgles_log.h \
+    hgles_window.h \
+    hgles_window_glfw.h \
+    hgles_input_keys.h \
+    hgles_input_keys_glfw.h \
+    hgles_input_keys_pi.h \
+    hgles_input_glfw.h \
+    hgles_input_pi.h \
+    hgles_window_interface.h \
+    hgles_input_interface.h \
+    hgles_input.h \
+    hgles_window_pi.h \
+    hgles_glad.h
 
 
 # crude hack to determine wheather this is build on a RaspberryPI

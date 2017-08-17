@@ -1,8 +1,8 @@
 #include <fstream>
 #include <cstring>
 
-#include "../include/hgles_context_state.h"
-#include "../include/hgles_log.h"
+#include "hgles_context_state.h"
+#include "hgles_log.h"
 
 namespace hgles {
 
@@ -66,6 +66,11 @@ void ContextState::Enable(GLenum cap) const
 void ContextState::Disable(GLenum cap) const
 {
 	glad_glDisable(cap);
+}
+
+void ContextState::Viewport(GLint x, GLint y, GLsizei width, GLsizei height)
+{
+	glad_glViewport(x,y,width,height);
 }
 
 void ContextState::ActiveTexture(const GLenum textureUnit)
@@ -629,6 +634,8 @@ std::string ContextState::util_get_program_log(GLuint programm) const
 	}
 	return  "";
 }
+
+
 
 
 

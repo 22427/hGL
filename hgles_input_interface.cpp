@@ -1,4 +1,4 @@
-#include "../include/hgles_input_interface.h"
+#include "hgles_input_interface.h"
 /**
  * Dummy implementations for the input interfaces.
  */

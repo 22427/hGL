@@ -7,10 +7,11 @@
 #include "hgles_input_glfw.h"
 #include "hgles_dll.h"
 
-#include "dep/glad/glad.h"
+#include "hgles_glad.h"
 #define GLFW_INCLUDE_ES2
-#include "dep/GLFW/glfw3.h"
-#include "dep/glm/vec2.hpp"
+#include "glfw/include/GLFW/glfw3.h"
+#include <glm/glm.hpp>
+
 
 namespace hgles
 {

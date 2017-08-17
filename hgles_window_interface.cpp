@@ -1,4 +1,4 @@
-#include "../include/hgles_window_interface.h"
+#include "hgles_window_interface.h"
 
 namespace hgles
 {

@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glad/glad.h>
+#include "hgles_glad.h"
 
 struct gladGLversionStruct GLVersion;
 

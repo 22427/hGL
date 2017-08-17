@@ -1,11 +1,11 @@
 #ifndef USE_PI
 #include <cstring>
 
-#include "../include/hgles_input_glfw.h"
-#include "../include/hgles_window_glfw.h"
-#include "../include/dep/glad/glad.h"
+#include "hgles_input_glfw.h"
+#include "hgles_window_glfw.h"
+#include "glad.h"
 #define GLFW_INCLUDE_ES2
-#include "../include/dep/GLFW/glfw3.h"
+#include "glfw/include/GLFW/glfw3.h"
 
 namespace hgles
 {

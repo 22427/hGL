@@ -1,10 +1,11 @@
 #ifndef USE_PI
 #include <cstring>
 #include <iostream>
-#include "../include/hgles_window_glfw.h"
-#include "../include/dep/glad/glad.h"
-#include "../include/dep/GLFW/glfw3.h"
-#include "../include/hgles_log.h"
+#include "hgles_window_glfw.h"
+#include "hgles_log.h"
+#include "glad.h"
+#include "glfw/include/GLFW/glfw3.h"
+
 namespace hgles
 {
 unsigned int Window::m_glfw_initiated = 0;
