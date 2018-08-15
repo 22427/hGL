@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <linux/input.h>
 #include <dirent.h>
-#include <hgles_window.h>
+#include "hgles_window.h"
 #include <fstream>
 
 #include <sstream>
