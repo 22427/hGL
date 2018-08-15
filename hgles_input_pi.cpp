@@ -1,4 +1,4 @@
-#ifdef USE_PI
+#ifdef HGLES_USE_PI
 #include <cstdio>
 #include <stdlib.h>
 #include <cstring>

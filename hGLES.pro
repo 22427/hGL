@@ -47,7 +47,7 @@ HEADERS += \
 
 # crude hack to determine wheather this is build on a RaspberryPI
 exists(/opt/vc/lib/libmmal.so){
-DEFINES += USE_PI
+DEFINES += HGLES_USE_PI
 LIBS += -L/opt/vc/lib/ -ldl -lbcm_host -lvcos -lvchiq_arm -lGLESv2 -lEGL -lpthread -lrt
 INCLUDEPATH += /opt/vc/include/
 QMAKE_CXXFLAGS += -Wno-variadic-macros -std=c++11

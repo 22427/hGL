@@ -1,4 +1,4 @@
-#ifdef USE_PI
+#ifdef HGLES_USE_PI
 
 #ifdef _WIN32
 #include <windows.h>
@@ -32,13 +32,13 @@ bool create_window(EGL_DISPMANX_WINDOW_T& nativewindow,
 	VC_RECT_T src_rect;
 
 
-	//		unsigned int display_width = 0;
-	//		unsigned int display_height =0 ;
+			unsigned int display_width = 0;
+			unsigned int display_height =0 ;
 
 	success = graphics_get_display_size(
 				0 /* LCD */,
-				&m_display_sze.x,
-				&m_display_sze.y);
+				&display_width,
+				&display_height);
 
 	if ( success < 0 )
 	{
@@ -111,21 +111,21 @@ bool create_egl_context(
 
 	if ( display  == EGL_NO_DISPLAY )
 	{
-		m_error("EGL: get display failed");
+		ERROR("EGL: get display failed");
 		return false;
 	}
 
 	// Initialize EGL
 	if ( !eglInitialize(display, &majorVersion, &minorVersion) )
 	{
-		m_error("EGL: initialization failed: %#x",eglGetError());
+		ERROR("EGL: initialization failed: %#x",eglGetError());
 		return false;
 	}
 
 	// Get configs
 	if ( !eglGetConfigs(display, NULL, 0, &numConfigs) )
 	{
-		m_error("EGL: get config failed");
+		ERROR("EGL: get config failed");
 		return false;
 	}
 
@@ -136,7 +136,7 @@ bool create_egl_context(
 						  1,
 						  &numConfigs) )
 	{
-		m_error("EGL: choose config failed!");
+		ERROR("EGL: choose config failed!");
 		return false;
 	}
 	// Create a surface
@@ -148,7 +148,7 @@ bool create_egl_context(
 
 	if ( surface == EGL_NO_SURFACE )
 	{
-		m_error("EGL: surface creation failed!");
+		ERROR("EGL: surface creation failed!");
 		return false;
 	}
 
@@ -159,14 +159,14 @@ bool create_egl_context(
 							   contextAttribs );
 	if ( context == EGL_NO_CONTEXT )
 	{
-		m_error("EGL: context creation failed!");
+		ERROR("EGL: context creation failed!");
 		return false;
 	}
 
 	// Make the context current
 	if ( !eglMakeCurrent(display, surface, surface, context) )
 	{
-		m_error("EGL: make current failed!");
+		ERROR("EGL: make current failed!");
 		return false;
 	}
 
