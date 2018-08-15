@@ -111,21 +111,21 @@ bool create_egl_context(
 
 	if ( display  == EGL_NO_DISPLAY )
 	{
-		ERROR("EGL: get display failed");
+		m_error("EGL: get display failed");
 		return false;
 	}
 
 	// Initialize EGL
 	if ( !eglInitialize(display, &majorVersion, &minorVersion) )
 	{
-		ERROR("EGL: initialization failed: %#x",eglGetError());
+		m_error("EGL: initialization failed: %#x",eglGetError());
 		return false;
 	}
 
 	// Get configs
 	if ( !eglGetConfigs(display, NULL, 0, &numConfigs) )
 	{
-		ERROR("EGL: get config failed");
+		m_error("EGL: get config failed");
 		return false;
 	}
 
@@ -136,7 +136,7 @@ bool create_egl_context(
 						  1,
 						  &numConfigs) )
 	{
-		ERROR("EGL: choose config failed!");
+		m_error("EGL: choose config failed!");
 		return false;
 	}
 	// Create a surface
@@ -148,7 +148,7 @@ bool create_egl_context(
 
 	if ( surface == EGL_NO_SURFACE )
 	{
-		ERROR("EGL: surface creation failed!");
+		m_error("EGL: surface creation failed!");
 		return false;
 	}
 
@@ -159,14 +159,14 @@ bool create_egl_context(
 							   contextAttribs );
 	if ( context == EGL_NO_CONTEXT )
 	{
-		ERROR("EGL: context creation failed!");
+		m_error("EGL: context creation failed!");
 		return false;
 	}
 
 	// Make the context current
 	if ( !eglMakeCurrent(display, surface, surface, context) )
 	{
-		ERROR("EGL: make current failed!");
+		m_error("EGL: make current failed!");
 		return false;
 	}
 

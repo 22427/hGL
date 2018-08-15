@@ -1,8 +1,8 @@
 #pragma once
 #include "hgles_window_interface.h"
 #include "hgles_dll.h"
-#include "dep/glad/glad.h"
-#include "dep/glm/vec2.hpp"
+#include "hgles_glad.h"
+#include <glm/vec2.hpp>
 #include "hgles_log.h"
 
 #include <functional>

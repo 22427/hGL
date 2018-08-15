@@ -16,8 +16,8 @@
 #include <algorithm>
 #include <termios.h>
 
-#include "../include/hgles_input_pi.h"
-#include "../include/hgles_log.h"
+#include "hgles_input_pi.h"
+#include "hgles_log.h"
 
 namespace idev
 {
