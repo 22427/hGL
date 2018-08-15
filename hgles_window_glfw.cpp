@@ -171,14 +171,26 @@ void Window::toggle_fullscreen()
 
 void Window::toggle_decoration()
 {
-	auto is = glfwGetWindowAttrib(m_glfw_win,GLFW_DECORATED);
-	glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,is?GLFW_FALSE:GLFW_TRUE);
+
+#if GLFW_VERSION_MAJOR >=3 && GLFW_VERSION_MINOR >=3
+        glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,is?GLFW_FALSE:GLFW_TRUE);
+        auto is = glfwGetWindowAttrib(m_glfw_win,GLFW_DECORATED);
+#else
+    m_log("GLFW version 3.3 is required to toggle window decoration!");
+#endif
 
 }
 
 void Window::set_decoration(bool dec)
 {
-	glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,dec?GLFW_TRUE:GLFW_FALSE);
+
+#if GLFW_VERSION_MAJOR >=3 && GLFW_VERSION_MINOR >=3
+        glfwSetWindowAttrib(m_glfw_win,GLFW_DECORATED,dec?GLFW_TRUE:GLFW_FALSE);
+#else
+    m_log("GLFW version 3.3 is required to set window decoration!");
+#endif
+
+
 }
 
 
