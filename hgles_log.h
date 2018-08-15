@@ -1,8 +1,8 @@
 #pragma once
-#if 0
+
 #ifndef LOG
 #define LOG(...) do{\
-	fprintf(stderr,"[ LOG ] ");\
+	fprintf(stderr,"[ L ] ");\
 	fprintf(stderr,__VA_ARGS__);\
 	fprintf(stderr,"\n");\
 	}while(0)
@@ -10,7 +10,7 @@
 
 #ifndef WARNING
 #define WARNING(...) do{\
-	fprintf(stderr,"[ WRN ] ");\
+	fprintf(stderr,"[ W ] ");\
 	fprintf(stderr,__VA_ARGS__);\
 	fprintf(stderr,"\n");\
 	}while(0)
@@ -19,7 +19,7 @@
 
 #ifndef ERROR
 #define ERROR(...) do{\
-	fprintf(stderr,"[ ERR ] %d - %s\n\t",__LINE__,__FILE__);\
+	fprintf(stderr,"[ E ] %d - %s\n\t",__LINE__,__FILE__);\
 	fprintf(stderr,__VA_ARGS__);\
 	fprintf(stderr,"\n");\
 	}while(0)
@@ -27,12 +27,9 @@
 
 #ifndef CRIT_ERROR
 #define CRIT_ERROR(...) do{\
-	fprintf(stderr,"[ ERR ] %d - %s\n\t",__LINE__,__FILE__);\
+	fprintf(stderr,"[ E ] %d - %s\n\t",__LINE__,__FILE__);\
 	fprintf(stderr,__VA_ARGS__);\
 	fprintf(stderr,"\n");\
 	exit(0);\
 	}while(0)
-#endif
-
-
 #endif
