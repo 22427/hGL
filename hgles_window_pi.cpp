@@ -6,8 +6,8 @@
 #include <dlfcn.h>
 #endif
 
-#include "../include/hgles_window_pi.h"
-#include "../include/glad/glad.h"
+#include "hgles_window_pi.h"
+#include "hgles_glad.h"
 #include <iostream>
 
 
