@@ -1,4 +1,6 @@
+#ifndef NDEBUG
 #include "hgles_window_interface.h"
+
 
 namespace hgles
 {
@@ -24,3 +26,4 @@ void WindowListener::position_changed(const int /*x*/, const int /*y*/)
 }
 
 }
+#endif

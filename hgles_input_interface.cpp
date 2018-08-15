@@ -63,7 +63,8 @@ void CharacterListener::char_input(const uint32_t /*c*/)
 {
 
 }
-
+#ifndef NDEBUG
 InputSystemInterface::~InputSystemInterface(){}
+#endif
 
 }

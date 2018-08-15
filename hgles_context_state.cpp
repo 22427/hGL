@@ -596,8 +596,8 @@ bool ContextState::util_error_check(const std::string &text) const
 	}
 	return false;
 #else
-	retrun false
-		#endif
+	return false;
+#endif
 }
 
 std::string ContextState::util_get_shader_log(GLuint shader) const

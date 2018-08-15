@@ -22,3 +22,7 @@
 	#define HGLES_HGLES_DLL_LOCAL
   #endif
 #endif
+
+#ifndef HGLES_UNUSED
+#define HGLES_UNUSED(expr) do { (void)(expr); } while (0)
+#endif
