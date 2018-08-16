@@ -42,10 +42,10 @@ protected:
 
 public:
 	friend class InputSystem;
-	Window(const uint32_t w,
-		   const uint32_t h,
-		   const uint32_t x=0,
-		   const uint32_t y=0);
+        Window(const int32_t w,
+                   const int32_t h,
+                   const uint32_t x=0,
+                   const uint32_t y=0);
 	~Window();
 	void make_current();
 	void unmake_current();
