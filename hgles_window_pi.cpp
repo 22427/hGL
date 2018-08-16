@@ -16,8 +16,8 @@ namespace hgles
 
 
 bool create_window(EGL_DISPMANX_WINDOW_T& nativewindow,
-				   unsigned int width,
-				   unsigned int height,
+				   int width,
+				   int height,
 				   unsigned int x,
 				   unsigned int y)
 {
@@ -45,6 +45,15 @@ bool create_window(EGL_DISPMANX_WINDOW_T& nativewindow,
 		return false;
 	}
 
+	if(width<0)
+	{
+		width = display_width;
+	}
+
+	if(height <0)
+	{
+		height = display_height;
+	}
 
 
 	dst_rect.x = x;
@@ -250,7 +259,7 @@ Window::Window(const uint32_t w,
 		EGL_GREEN_SIZE,    8,
 		EGL_BLUE_SIZE,     8,
 		EGL_ALPHA_SIZE,    8,
-		EGL_DEPTH_SIZE,   16,
+		EGL_DEPTH_SIZE,   24,
 		EGL_STENCIL_SIZE,  0,
 		EGL_SAMPLE_BUFFERS,1,
 		EGL_NONE
@@ -281,7 +290,7 @@ Window::Window(const uint32_t w,
 #elif defined _WIN32
 	static const char *NAMES[] = {"todo.dll"};
 #else
-	static const char *NAMES[] = {"libGLESv2.so"};
+	static const char *NAMES[] = {"libbrcmGLESv2.so","libGLESv2.so"};
 #endif	
 	global_egl_handle = open_handle(NAMES, sizeof(NAMES) / sizeof(NAMES[0]));
 	if (global_egl_handle) {
@@ -344,15 +353,15 @@ void Window::add_window_listener(WindowListener *){/*TODO*/}
 
 void Window::remove_window_listener(WindowListener *){/*TODO*/}
 
-void Window::set_size(const int w, const int h){}
+void Window::set_size(const int , const int ){/*TODO*/}
 
-void Window::set_size(const glm::ivec2 &sze){}
+void Window::set_size(const glm::ivec2 &sze){set_size(sze.x,sze.y);}
 
 glm::ivec2 Window::get_size() const{return m_sze;}
 
-void Window::set_position(const int x, const int y){}
+void Window::set_position(const int , const int ){}
 
-void Window::set_position(const glm::ivec2 &pos){}
+void Window::set_position(const glm::ivec2 &pos){set_position(pos.x,pos.y);}
 
 glm::ivec2 Window::get_position() const {return m_pos;}
 }
