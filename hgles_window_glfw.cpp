@@ -246,7 +246,7 @@ void Window::set_size(const glm::ivec2 &sze)
 glm::ivec2 Window::get_size() const
 {
     glm::ivec2 r;
-    glfwGetWindowSize(m_glfw_win,&(r.x),&(r.y));
+    glfwGetFramebufferSize(m_glfw_win,&(r.x),&(r.y));
     return r;
 }
 
