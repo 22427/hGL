@@ -4,11 +4,12 @@
 
 namespace hgles
 {
-
+#ifndef NDEBUG
 WindowInterface::~WindowInterface()
 {
 
 }
+#endif
 
 WindowListener::~WindowListener()
 {

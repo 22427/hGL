@@ -597,7 +597,11 @@ std::string ContextState::util_error_string(const GLenum error) const
 #undef TO_STR
 }
 
-bool ContextState::util_error_check(const std::string &text) const
+bool ContextState::util_error_check(const std::string &
+									#ifndef NDEBUG
+									text
+									#endif
+									) const
 {
 #ifndef NDEBUG
     GLenum err_cde;

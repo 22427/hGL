@@ -27,8 +27,8 @@ class HGLES_DLL_PUBLIC Window
 {
 protected:
 
-	glm::ivec2 m_win_pos;
-	glm::ivec2 m_win_sze;
+//	glm::ivec2 m_win_pos;
+//	glm::ivec2 m_win_sze;
 
 
 	glm::ivec2 m_pos;

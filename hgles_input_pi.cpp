@@ -247,8 +247,8 @@ namespace hgles
 
 	void InputSystem::init(Window *w)
 	{
-		m_cursor_position[0] = w->m_win_sze.x/2;
-		m_cursor_position[1] = w->m_win_sze.y/2;
+		m_cursor_position[0] = w->m_sze.x/2;
+		m_cursor_position[1] = w->m_sze.y/2;
 		
 	}
 

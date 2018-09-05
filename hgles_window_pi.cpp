@@ -16,8 +16,8 @@ namespace hgles
 
 
 bool create_window(EGL_DISPMANX_WINDOW_T& nativewindow,
-				   int width,
-				   int height,
+				   int& width,
+				   int& height,
 				   unsigned int x,
 				   unsigned int y)
 {
@@ -246,8 +246,8 @@ Window::Window(const uint32_t w,
 			   const uint32_t x,
 			   const uint32_t y)
 {
-	m_pos = m_win_pos = glm::ivec2(x,y);
-	m_sze = m_win_sze = glm::ivec2(w,h);
+	m_pos  = glm::ivec2(x,y);
+	m_sze  = glm::ivec2(w,h);
 	m_log = [](const std::string& str){std::cout<<"[ L ] "<<str<<"\n";};
 	m_warning = [](const std::string& str){std::cout<<"[ W ] "<<str<<"\n";};
 	m_error= [](const std::string& str){std::cerr<<"[ E ] "<<str<<"\n";};
@@ -266,7 +266,7 @@ Window::Window(const uint32_t w,
 	};
 
 
-	if(!create_window(m_win_handle,w,h,x,y))
+	if(!create_window(m_win_handle,m_sze.x,m_sze.y,x,y))
 	{
 		m_error("failed creating 'window'!");
 		exit(0);
@@ -349,9 +349,17 @@ bool Window::should_close(){return m_should_close;}
 
 void Window::set_should_close(bool s_c){m_should_close =s_c;}
 
-void Window::add_window_listener(WindowListener *){/*TODO*/}
+void Window::add_window_listener(WindowListener *l)
+{
+	m_window_listeners.insert(l);
+	l->size_changed(m_sze.x,m_sze.y);
+	l->position_changed(m_pos.x,m_pos.y);
+}
 
-void Window::remove_window_listener(WindowListener *){/*TODO*/}
+void Window::remove_window_listener(WindowListener * l)
+{
+	m_window_listeners.erase(l);
+}
 
 void Window::set_size(const int , const int ){/*TODO*/}
 
